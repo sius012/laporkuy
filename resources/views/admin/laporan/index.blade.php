@@ -66,20 +66,7 @@ $(document).ready(function() {
                 <td>{{$i+1}}</td>
                 <td>{{$lp->judul_laporan}}</td>
                 <td>
-                    <div class="btn-group">
-                        <button type="button" class="btn dropdown-toggle {{renderSpan($lp->status)}}" data-bs-toggle="dropdown"
-                            aria-expanded="false" value="{{$lp->_id}}">
-                            {{$lp["status"]}}
-                        </button>
-                        <ul class="dropdown-menu" id="tuning-options">
-                            <li><a class="dropdown-item" href="#" value="menunggu">Menunggu</a></li>
-                            <li><a class="dropdown-item" href="#" value="kepetugas">Ke Petugas</a></li>
-                            <li><a class="dropdown-item" href="#" value="diproses">Diproses</a></li>
-                            <li><a class="dropdown-item" href="#" value="ditunda">Ditunda</a></li>
-                            <li><a class="dropdown-item" href="#" value="selesai">Selesai</a></li>
-
-                        </ul>
-                    </div>
+                     
 
                 </td>
                 <td><a href="">{{$lp->lokasi}}</a></td>
@@ -263,10 +250,10 @@ $(document).ready(function() {
     initialize();
 
 
-    $(".td-laporan").click(function() {
+    $(document).on("click", ".td-laporan",function(e) {
         $("#id-laporan").val($(this).attr("id_laporan"));
 
-
+    
 
         $.ajax({
             url: "/getdetaillaporan",
@@ -275,13 +262,13 @@ $(document).ready(function() {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
             data: {
-                id: $(this).attr("id_laporan"),
+                id: $(e.target).closest("a").attr("id_laporan"),
             },
             dataType: "json",
             type: "post",
             success: function(data) {
-                showdetaillaporan(data);
-            },
+                alert($(e.target).closest("a").attr("id_laporan")); showdetaillaporan(data);
+            }, 
             error: function(err) {
                 alert(err.responseText);
             }

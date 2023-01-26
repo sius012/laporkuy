@@ -10,6 +10,7 @@ use Jenssegers\Mongodb\Eloquent\Model as Eloquent;
 class Laporan extends Eloquent
 {
     use HasFactory;
+    protected $primaryKey = "_id";
     protected $connection = 'mongodb';
     protected $collection = 'laporan';
     protected $fillable = [

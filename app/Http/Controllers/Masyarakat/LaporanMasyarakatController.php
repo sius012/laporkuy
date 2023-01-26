@@ -7,6 +7,10 @@ use App\Http\Controllers\Controller;
 use App\Http\Controllers\LaporanController;
 use RealRashid\SweetAlert\Facades\Alert;
 
+use Auth;
+
+    
+
 class LaporanMasyarakatController extends Controller
 {
     public function index(){
@@ -24,7 +28,29 @@ class LaporanMasyarakatController extends Controller
     }
 
     public function laporanSaya(Request $req){
+        
 
-        return view("masyarakat.laporansaya", ["darkmode"=>true]);
+        
+
+   
+        $laporan = new LaporanController;
+        $data = $laporan->getlaporanuser(Auth::user()->id);
+        
+        //tambahkan detail
+        foreach($data as $i => $dt){
+            $myRequest = new Request();
+            $myRequest->setMethod('POST');
+            $myRequest->request->add(['id' => $dt["_id"]]);
+            $myRequest->request->add(['state' => ["respon_laporan","nojson","change_    log"]]);
+
+            $detail = new LaporanController;
+            
+            $data[$i] = $detail->getdetaillaporan($myRequest);
+        }
+        
+        //dd($data);
+        
+            
+        return view("masyarakat.laporansaya", ["latat"=>true, "laporan"=>$data]);
     }
 }

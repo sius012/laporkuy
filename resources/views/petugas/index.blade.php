@@ -22,6 +22,13 @@
         .nav-link {
             color: black !important;
         }
+
+        .card-task:hover {
+            outline: 0px solid transparent;
+            border: 5px solid #999999;
+            -webkit-transition: all 0.2s ease-in-out;
+            transition: all 0.2s ease-in-out;
+        }
     </style>
 @endsection
 <h3 class="m-0 mx-5 my-4">Daftar Tugas</h3>
@@ -250,21 +257,7 @@
                                 <tr>
                                     <th>Status</th>
                                     <td>
-                                        <div class="btn-group">
-                                            <ul class="dropdown-menu" id="tuning-options">
-                                                <li><a class="dropdown-item-petugas" href="#"
-                                                        value="menunggu">Menunggu</a></li>
-                                                <li><a class="dropdown-item-petugas" href="#" value="kepetugas">Ke
-                                                        Petugas</a></li>
-                                                <li><a class="dropdown-item-petugas" href="#"
-                                                        value="diproses">Diproses</a></li>
-                                                <li><a class="dropdown-item-petugas" href="#" value="ditunda">Ditunda</a>
-                                                </li>
-                                                <li><a class="dropdown-item-petugas" href="#" value="selesai">Selesai</a>
-                                                </li>
-
-                                            </ul>
-                                        </div>
+                                        @include("component.status")
                                     </td>
                                 </tr>
                             </table>
@@ -317,4 +310,22 @@
             </div>
         </div>
     </div>
+
+    <div class="modal" tabindex="-1" id="modal-selesai">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Modal title</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p>Modal body text goes here.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
 @endsection

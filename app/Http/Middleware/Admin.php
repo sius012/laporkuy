@@ -43,6 +43,8 @@ class Admin
             //Check Roles
         
             
+          }else{
+            return route('login');
           }
         
         

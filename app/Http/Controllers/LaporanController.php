@@ -54,7 +54,8 @@ class LaporanController extends Controller
     public function tambahPetugas(Request $req){
         $idLaporan = $req->idlaporan;
 
-       // dd($req);
+        
+       
         $daftarpetugas = [];
         foreach($req->input("uid") as $i => $fc){
             $datapetugas = User::role("petugas")->find($fc);
@@ -69,8 +70,9 @@ class LaporanController extends Controller
             
         }
         //INISIALISASI DASAR
-        $modelLaporan = Laporan::find($idLaporan);
+        $modelLaporan = Laporan::where("_id",$idLaporan)->first();
         $akunadmin = User::where("_id", Auth::user()->id)->first()->toArray();
+        
 
         //PEMANBAHAN PETUGAS
         if(count($daftarpetugas) > 0 ){
@@ -187,17 +189,30 @@ class LaporanController extends Controller
        if($req->has("action")){
 
         $data = ["data"=>json_decode(json_encode($datatable))->original->data];
-        dd($datatable);
+        
         return view("vendor.datatables.print", $data);
        }else{
         return $datatable;
        }
     }
+
+    public function getlaporanuser($uid){
+        
+        $laporanuser = Laporan::where("pelapor._id", "all", [$uid] )->get();
+
+        return $laporanuser->toArray();
+    }
+
+
     public function getdetaillaporan(Request $req){
         $laporan = Laporan::find($req->id)->toArray();
 
+        $nojson = false;
     
         if($req->filled("state")){
+            if(in_array("nojson", $req->state)){
+                $nojson = true;
+            }
             foreach($req->state as $st){
                 if($st == "respon_laporan"){
 
@@ -205,10 +220,10 @@ class LaporanController extends Controller
          
 
                         //Get Response Laporan
-                        $rp = ResponLaporan::where("id_laporan",$req->id)->first()->toArray();
-                        $laporan["respon_laporan"] = $rp;
-
-                    
+                        $rp = ResponLaporan::where("id_laporan",$req->id)->first();
+                        if($rp!=null){
+                            $laporan["respon_laporan"] = $rp->toArray();
+                        }
                 }else if($st == "change_log"){
                         $log = ChangeLogLaporan::where("id_laporan",$req->id)->first()->toArray();
                         $laporan["log"] = $log["log"]; 
@@ -216,7 +231,8 @@ class LaporanController extends Controller
             }
         }
 
-        return json_encode($laporan);
+
+        return $nojson == true ? $laporan : json_encode($laporan);
     }
 
     public function ubahstatuslaporan(Request $req){

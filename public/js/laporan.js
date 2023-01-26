@@ -77,13 +77,24 @@ $(document).ready(function() {
 
 
 
-function changeStatus(element, cb = null) {
+function changeStatus(element, modalement = null) {
 
     let button = element.closest(".btn-group").children("button");
 
+    if(element.attr("value") == "selesai"){
+        if(modalement != null){
+            modalement.modal("show");
+        }
+    }else{
+        changeStatusAjax(element);
+    }
 
 
 
+    
+}
+
+function changeStatusAjax(element){
     $.ajax({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -99,9 +110,8 @@ function changeStatus(element, cb = null) {
           alert(element.attr("value"));
             button.attr("class", "btn dropdown-toggle " + data["bg"]);
             button.text(element.text());
-            if(cb != null){
-                cb;
-            }
+            
+            
             
         },
         error: function(err) {

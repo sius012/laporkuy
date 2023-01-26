@@ -89,7 +89,7 @@ $(document).ready(function(){
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
                     data: {
-                        email: "dezoditing012@gmail.com",
+                        email: "LordAfit@gmail.com",
                         password: sandi,
                     },
                     type: "post",
@@ -110,7 +110,7 @@ $(document).ready(function(){
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                         },
                         data: {
-                            email: "micky@gmail.com",
+                            email: "dezoditing012@gmail.com",
                             password: sandi,
                         },
                         type: "post",

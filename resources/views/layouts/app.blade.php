@@ -31,14 +31,23 @@
     <script>
     
     </script>
-    
+    <style>
+        .sidebar a:hover{
+            background: #8d42f5;
+            color: white;
+            border-radius: 50px
+        }
+    </style>
  
 </head>
-<body class="" style="overflow-x: hidden"> 
+@php 
+$bg = asset("/public/img/bg-user.svg");
+@endphp
+<body class="" style="overflow-x: hidden; background: url('{{$bg}}')"> 
     @include("sweetalert::alert")
     <div id="app">
        <div class="containers " style="height: 100vh">
-        <div class="row">
+        <div class="row" style="height:100vh">
             <div class="col-2 " style="height: auto; background-color: white">
                 @include('layouts.sidebar')
             </div>
