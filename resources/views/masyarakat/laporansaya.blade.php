@@ -5,6 +5,7 @@
 @push("scripts")
 <script>
 $(document).ready(function() {
+
     function loadTab(target = null) {
         var targetelm = target == null ? "keterangan-tab" : target;
         $(".tab-cont").each(function() {
@@ -22,22 +23,94 @@ $(document).ready(function() {
         loadTab($(this).attr("lk-data-target"));
     });
 
-})
+
+    $(".lampiran-saya").click(function() {
+            $.ajax({
+                    url: "/getdetaillaporan",
+
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    data: {
+                        id: $(this).val(),
+                    },
+                    dataType: "json",
+                    type: "post",
+                    success: function(data) {
+
+                       // $(".img-prev").html("");
+                        data["lampiran"].map(function(e,i){
+                            $(".img-prev").append(` <div class="carousel-item ${i == 0 ? " active" : ""}">
+                                <img src="${e["image"]}" class="d-block mx-auto" alt="..." style="width:100%; height: 400px">
+                            </div>`);
+                        });
+                    
+                },
+                error: function(err) {
+                    alert(err.responseText);
+                }
+            });
+});
+
+
+});
 </script>
 
 
 @endpush
+
 <div class="dic mb-5"></div>
 <div class="containers m-3">
-    <div class="row">
-        <div class="col-1"></div>
-        <div class="col-7">
+
+    <div class="row" style="height: 100vh">
+
+        <div class="col-6">
+            <div class="card p-3">
+                <form action="" method="GET">
+
+                    <div class="row">
+                        <div class="col">
+                            <h5>Status:</h5>
+                        </div>
+                        <div class="col">
+                            <h5>Dari:</h5>
+                        </div>
+                        <div class="col">
+                            <h5>Sampai:</h5>
+                        </div>
+                        <div class="col"></div>
+                    </div>
+                    <div class="row">
+                        <div class="col"> <select id="" class="form-select" name="status">
+                                <option value="">Pilih Status</option>
+                                <option value="menunggu">{{ucwords("menunggu")}}</option>
+                                <option value="kepetugas">{{ucwords("kepetugas")}}</option>
+                                <option value="diproses">{{ucwords("diproses")}}</option>
+                                <option value="selesai">{{ucwords("selesai")}}</option>
+                            </select></div>
+                        <div class="col">
+                            <input type="date" class="form-control" name="dari">
+                        </div>
+                        <div class="col">
+                            <input type="date" class="form-control" name="sampai">
+                        </div>
+                        <div class="col">
+                            <button class="btn btn-primary" value="laporan" name="filter">Cari</button>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
             @foreach($laporan as $lp)
-              @include("component.laporan_comp")
+            @include("component.laporan_comp")
             @endforeach
         </div>
+        <div class="col-1"></div>
         <div class="col-4">
-</div>
+            <div class="card" style="height: 100%">
+
+            </div>
+        </div>
     </div>
 
 </div>
@@ -51,20 +124,15 @@ $(document).ready(function() {
 
             <div class="modal-body">
                 <div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
-                    <div class="carousel-inner">
-                        <div class="carousel-item active">
-                            <img src="..." class="d-block w-100" alt="...">
-                        </div>
-                        <div class="carousel-item">
-                            <img src="..." class="d-block w-100" alt="...">
-                        </div>
-                        <div class="carousel-item">
-                            <img src="..." class="d-block w-100" alt="...">
-                        </div>
+                    <div class="carousel-inner img-prev">
+
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+
+
 @endsection

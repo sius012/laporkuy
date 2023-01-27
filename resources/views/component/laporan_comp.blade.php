@@ -1,6 +1,7 @@
-<div class="card m-3">
+
+<div class="card m-3 shadow">
     <div class="card-header">
-        <p class=" fs-6"><b>{{$lp["judul_laporan"]}} <span class="badge bg-secondary fs-6">Menunggu</span></b>
+        <p class=" fs-6"><b>{{$lp["judul_laporan"]}} <span class="badge  fs-6 {{renderSpan($lp['status'])}}">{{ucwords($lp["status"])}}</span></b>
         </p>
     </div>
     <div class="card-body">
@@ -64,11 +65,13 @@
                 <div class="container changelog-tab tab-cont">
                     <div class="card p-2">
                         <div class="container">
+                            @if($lp["admin"]!=null)
                             @if(isset($lp["log"]))
                             <p>ChangeLog: <b>{{$lp["admin"]["name"]}}</b></p>
                             <span class="fs-6 ">direspon pada </span>
                             <div class="badge bg-warning">{{date("Y-m-d")}}</div>
                             <div class="card p-2 m-3">{{$lp["respon_laporan"]["keterangan"]}}</div>
+                            @endif
                             @endif
                         </div>
                     </div>
@@ -117,7 +120,7 @@
         </div>
     </div>
     <div class="card-footer">
-        <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal"><i
+        <button class="btn btn-success lampiran-saya" data-bs-toggle="modal" data-bs-target="#exampleModal" value="{{$lp['_id']}}" ><i
                 class="fa fa-image"></i></button>
 
     </div>

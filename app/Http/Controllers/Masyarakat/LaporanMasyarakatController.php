@@ -14,7 +14,7 @@ use Auth;
 class LaporanMasyarakatController extends Controller
 {
     public function index(){
-       
+        
         return view("masyarakat.laporan_masyarakat");
        
     }
@@ -34,14 +34,14 @@ class LaporanMasyarakatController extends Controller
 
    
         $laporan = new LaporanController;
-        $data = $laporan->getlaporanuser(Auth::user()->id);
+        $data = $laporan->getlaporanuser(Auth::user()->id, $req->filled("filter") ? $req : null);
         
         //tambahkan detail
         foreach($data as $i => $dt){
             $myRequest = new Request();
             $myRequest->setMethod('POST');
             $myRequest->request->add(['id' => $dt["_id"]]);
-            $myRequest->request->add(['state' => ["respon_laporan","nojson","change_    log"]]);
+            $myRequest->request->add(['state' => ["respon_laporan","nojson","change_log"]]);
 
             $detail = new LaporanController;
             

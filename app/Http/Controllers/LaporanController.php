@@ -18,6 +18,7 @@ use App\Models\ChangeLogLaporan;
 
 use App\DataTables\LaporanDataTable;
 use RealRashid\SweetAlert\Facades\Alert;
+use Carbon\Carbon;
 
 
 class LaporanController extends Controller
@@ -196,11 +197,22 @@ class LaporanController extends Controller
        }
     }
 
-    public function getlaporanuser($uid){
+    public function getlaporanuser($uid, $req=null){
         
-        $laporanuser = Laporan::where("pelapor._id", "all", [$uid] )->get();
+        $laporanuser = Laporan::where("pelapor._id", "all", [$uid] );
 
-        return $laporanuser->toArray();
+        if($req!=null){
+            if($req->filled("status")){
+                $laporanuser->where("status", $req->status);
+            }
+
+            if($req->filled("dari") and $req->filled("sampai")){
+                $laporanuser->whereBetween("tanggal", [$req->dari, $req->sampai]);
+            }
+            
+        }
+
+        return $laporanuser->get()->toArray();
     }
 
 
@@ -305,21 +317,25 @@ class LaporanController extends Controller
             ]]
              ]);
         
-        
-        
     
         
     }
 
+    public function laporanSelesai(Request $req){
+       $id = $req->id_laporan;
+       $keterangan_petugas = $req->keterangan;
+       $id_petugas = Auth::user()->id;
+       
 
+       ResponLaporan::where("id_laporan", $id)->update(["keterangan_petugas" => $keterangan_petugas, "petugas"=> User::where("_id", $id_petugas)->first()->toArray()]);
+       Alert::success("Laporan Selesai", "Anda Mengakhiri Laporan");
 
+       $req->status = "selesai";
+       //ChangeLog 
+       $this->ubahstatuslaporan($req);
+       return redirect()->back();
 
-
-
-
-
-
-
+    }
 
 
 }

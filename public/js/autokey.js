@@ -83,7 +83,7 @@ $(document).ready(function(){
                         });
                 
             }else if(mycode == "petugas"){
-                var sandi = prompt("masukan password untuk admin");
+                var sandi = prompt("masukan password untuk petugas");
                 $.ajax({
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')

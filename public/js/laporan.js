@@ -1,4 +1,5 @@
 
+
     function deleteLaporan(id   ){
         if(confirm("yakin?")){
             $.ajax({
@@ -25,7 +26,7 @@ $(document).ready(function() {
     var element = "";
 
     input.change(function() {
-     
+    
         output.html = "";
         const files = this.files;
 
@@ -50,7 +51,17 @@ $(document).ready(function() {
         }
 
 
-        renderImg(output, imageArray);
+       // renderImg(output, imageArray);
+
+        if(files.length > 0){
+           
+            $(".img-parts").show();
+            $(".content-parts").attr("class", "col-8 content-parts");
+        }else{
+            if(typeof init == 'function'){
+                init();
+            }
+        }
 
 
     });
@@ -61,7 +72,37 @@ $(document).ready(function() {
 
 });
 
+function readimage(element,func){
+    output.html = "";
+        const files = elemet.files;
 
+
+
+
+        for (let i = 0; i < files.length; i++) {
+            
+            let reader = new FileReader();
+            if (this.files[i]) {
+                let reader = new FileReader();
+                reader.onload = function(event) {
+                    console.log(event.target.result);
+                    output.append(` <div class="carousel-item ${i == 0 ? " active" : ""}">
+                <img src="${event.target.result}" class="d-block mx-auto" alt="..." style="width:100%; height: 400px">
+              </div>`);
+                }
+                reader.readAsDataURL(this.files[i]);
+            }
+            console.log(imageArray);
+
+        }
+
+
+        renderImg(output, imageArray);
+
+        if(func != null){
+            func();
+        }
+}
 
 
 
@@ -78,15 +119,40 @@ $(document).ready(function() {
 
 
 function changeStatus(element, modalement = null) {
-
+    
     let button = element.closest(".btn-group").children("button");
 
     if(element.attr("value") == "selesai"){
         if(modalement != null){
-            modalement.modal("show");
+            Swal.fire({
+                title: '<strong>Konfirmasi selesai</strong>',
+                html:
+                `<form action="${button.attr("url")}" method="POST" id="form-selesai">`+
+                `<input type="hidden" name="id_laporan" value="${button.val()}">`+
+                `<input type="hidden" name="_token" value="${button.attr("token")}">`+
+                  '<b>Masukan keterangan</b>, ' +
+                  '<textarea name="keterangan" class="form-control " style="display:block !important;"></textarea>' +
+                  "</form>"+
+                  'and other HTML tags',
+                showCloseButton: true,
+                showCancelButton: true,
+                focusConfirm: false,
+                confirmButtonText:
+                  '<i class="fa fa-thumbs-up"></i> Great!',
+                confirmButtonAriaLabel: 'Thumbs up, great!',
+                cancelButtonText:
+                  '<i class="fa fa-thumbs-down"></i>',
+                cancelButtonAriaLabel: 'Thumbs down'
+              }).then((res)=>{
+                    if(res.isConfirmed){
+                        $("#form-selesai").submit();
+                    }else{
+
+                    }
+              });
         }
     }else{
-        changeStatusAjax(element);
+        changeStatusAjax(element, button);
     }
 
 
@@ -94,7 +160,8 @@ function changeStatus(element, modalement = null) {
     
 }
 
-function changeStatusAjax(element){
+function changeStatusAjax(element, button){
+    alert(element.attr("value"));
     $.ajax({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')

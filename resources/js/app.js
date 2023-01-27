@@ -6,6 +6,7 @@
 
 import './bootstrap';
 import 'laravel-datatables-vite';
+import 'chart.js';
 import { createApp } from 'vue';
 
 

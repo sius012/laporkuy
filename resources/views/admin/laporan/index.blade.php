@@ -15,26 +15,15 @@
 
 
 
-<button type="button" class="btn btn-primary my-3" data-bs-toggle="modal" data-bs-target="#exampleModal">
+<button type="button" class="btn btn-primary my-1 mx-3" data-bs-toggle="modal" data-bs-target="#exampleModal">
     Tambahkan data
 </button>
 
-
-<div class="container">
-    <div class="row">
-        <div class="col"> <input class="form-control" id="myInput" type="text" placeholder="Cari Laporan.."></div>
-        <div class="col"></div>
-
-    </div>
-</div>
-
 <script>
 $(document).ready(function() {
-    $("#myInput").on("keyup", function() {
-        var value = $(this).val().toLowerCase();
-        $("#myTable tr").filter(function() {
-
-            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    $(document).ready(function() {
+        $(document).delegate('.dropdown-item','click',function() {
+            changeStatus($(this));
         });
     });
 });
@@ -46,8 +35,8 @@ $(document).ready(function() {
 </script>
 
 
-<div class="container mt-3 m-4 w-auto">
-    <table class="table table-light table-hover px-0" id="tabel-laporan">
+<div class="containers  mx-2 w-auto">
+    <table class="table table-light table-hover px-2 mt-3" id="tabel-laporan">
         <thead class="s">
             <tr>
                 <th>No</th>

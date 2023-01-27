@@ -39,6 +39,27 @@
         }
     </style>
 @endsection
+@push("scripts")
+    <script>
+        function init(){
+            $(".img-parts").hide();
+          $(".content-parts").attr("class", "col-12 content-parts")
+        }
+
+        $(document).ready(function(){
+            init();
+            
+        });
+
+
+        function scrollto(){
+            document.getElementById('bb').scrollIntoView({behavior: "smooth", block: "start", inline: "nearest"});
+        }
+    </script>
+
+
+
+@endpush
 @section('content')
     <section class="landing ">
         <div class="p-5 content">
@@ -46,7 +67,7 @@
             <p class="section-text">
                 buat laporan pengajuan anda, apapun laporan anda kami terima
             </p>
-            <button class="btn-buatlaporan">Buat Laporan</button>
+           <button class="btn-buatlaporan" onclick="scrollto()"> Buat Laporan</button>
         </div>
     </section>
     <div class="div">
@@ -69,10 +90,10 @@
                             @csrf
                         <div class="container">
                             <div class="row">
-                                <div class="col-4">
+                                <div class="col-4 img-parts">
                                     @include('masyarakat.laporanlampiran')
                                 </div>
-                                <div class="col-8">
+                                <div class="col-8 content-parts" id="bb">
                                     @include('masyarakat.buatlaporan')
                                     <button type="submit" class="btn btn-primary">Submit</button>
                                 </div>

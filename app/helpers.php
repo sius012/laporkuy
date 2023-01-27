@@ -5,7 +5,7 @@ use function Termwind\render;
 function renderSpan($status){
     switch ($status) {
       case "menunggu":
-        return "bg-secondary";
+        return "bg-menunggu";
         break;
       case "kepetugas":
           return "bg-petugas";
@@ -67,6 +67,15 @@ class LaporkuyLayout {
         "class_icon" => "fa fa-gear",
         "redirect_to" => url("/pengaturanakun")
       ]
+
+      ,
+      [
+        "nama_menu" => "Tugas Saya",
+        "class_icon" => "fa fa-list",
+        "redirect_to" => url("/petugas/tugassaya"),
+        "admin"=>true,
+      ],
+
     
       ];
 
@@ -81,6 +90,7 @@ class LaporkuyLayout {
           <div class="row">
              
               <div class="col-9 fw-bold fs-2">'.$m["nama_menu"].'</div>
+              <div class="col-3">'.Auth::user()->roles.'</div>
           </div>
       </a>
       
@@ -88,11 +98,14 @@ class LaporkuyLayout {
       }
       
     }else{
+
+      
       $menustring .= '<div class="row">
+
       
         <a href="'.(isset($m["redirect_to"]) ? $m["redirect_to"] : "#").'" class="p-3 side-link nav-link ">
             <div class="row">
-                <div class="col-3"><i class="'.(isset($m["class_icon"]) ? $m["class_icon"] : "") .'"></i></div>
+                <div class="col-3"><i class=" px-3 '.(isset($m["class_icon"]) ? $m["class_icon"] : "") .'"></i></div>
                 <div class="col-9 fw-bold">'.$m["nama_menu"].'</div>
             </div>
         </a>

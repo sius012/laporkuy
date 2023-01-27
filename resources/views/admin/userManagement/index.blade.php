@@ -3,7 +3,7 @@
 @section('content')
 
 
-    <div class="container">
+    <div class="containers m-3">
         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#tambah-user-modal">
             Tambah User Modal
         </button>

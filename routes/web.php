@@ -72,6 +72,7 @@ Route::middleware(["rolenew:admin"])->prefix("admin")->group(function(){
 Route::post('/getdetaillaporan', [App\Http\Controllers\LaporanController::class, 'getdetaillaporan']);
 Route::post("/ubahstatuslaporan", [App\Http\Controllers\LaporanController::class, "ubahstatuslaporan"]);
 Route::get("/laporan/get", [App\Http\Controllers\LaporanController::class, "getlaporan"]);
+Route::post("/laporan/selesai", [App\Http\Controllers\LaporanController::class, "laporanselesai"]);
 
 
 
