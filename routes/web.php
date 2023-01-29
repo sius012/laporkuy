@@ -15,20 +15,16 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+
 Route::get('/add', [App\Http\Controllers\LaporanController::class, 'add'])->name('add');
 
 Auth::routes();
 
 
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
 
 Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::get('/flogout',[App\Http\Controllers\UserController::class, 'logout']);
 
@@ -57,6 +53,7 @@ Route::middleware(["rolenew:admin"])->prefix("admin")->group(function(){
         Route::get('/userdata', [App\Http\Controllers\UserdataController::class, 'index'])->name('admin.user.tampil');
         Route::post('/getuserdetail', [App\Http\Controllers\UserdataController::class, 'getuserdetail'])->name('admin.user.detail');
         Route::post('/tambahuser',[App\Http\Controllers\UserdataController::class, 'tambahuser']);
+         Route::post('/tambahrole',[App\Http\Controllers\UserdataController::class, 'tambahrole']);
 
         Route::get('/laporan/hapus/{id}', [App\Http\Controllers\LaporanController::class, 'hapusLaporan']);
 });
@@ -79,15 +76,16 @@ Route::post("/laporan/selesai", [App\Http\Controllers\LaporanController::class, 
 
 //General
 Route::post('/caripetugas', [PetugasController::class, 'cariPetugas'])->name('petugas.cari');
-Route::post('/user/getroles', [App\Http\Controllers\UserController::class,  "getroles"])->name('petugas.cari');
+Route::post('/user/getroles', [App\Http\Controllers\UserController::class,  "getroles"])->name('user.getro');
+
+Route::get("/redirect", [App\Http\Controllers\RedirectController::class,  "index"])->name('route.redirect');
 
 
 
-
-
+Route::get("/", [App\Http\Controllers\Masyarakat\LaporanMasyarakatController::class, "index"]);
 //Masyarakat
 Route::middleware("rolenew:masyarakat|admin")->group(function(){
-    Route::get("/laporan", [App\Http\Controllers\Masyarakat\LaporanMasyarakatController::class, "index"]);
+    
     Route::get("/laporansaya", [App\Http\Controllers\Masyarakat\LaporanMasyarakatController::class, "laporanSaya"]);
     Route::post("/buatlaporanmasyarakat", [App\Http\Controllers\Masyarakat\LaporanMasyarakatController::class, "buatlaporan"])->name("masyarakat.laporan.buat");
 });
@@ -97,7 +95,6 @@ Route::middleware("rolenew:masyarakat|admin")->group(function(){
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 
 

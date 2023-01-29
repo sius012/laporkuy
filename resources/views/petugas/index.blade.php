@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('content')
-
+@section("title", "Tugas Saya")
 
 
 
@@ -31,7 +31,7 @@
 }
 </style>
 @endpush
-<h3 class="m-0 mx-5 my-4">Daftar Tugas</h3>
+<h5 class="m-0 mx-5 my-4">Daftar Tugas</h5>
 <div class="contasiner mx-5">
 
 
@@ -39,7 +39,7 @@
     <div class="row">
 
         <div class="col-3  ">
-            <h3>Laporan Masuk</h3>
+            <h4 class="badge bg-secondary">Laporan Masuk</h4>
             <div class="container task-container">
                 @foreach ($laporan as $lp)
                 @php
@@ -50,7 +50,7 @@
             </div>
         </div>
         <div class="col-3 ">
-            <h3>Laporan Masuk</h3>
+            <h4 class="badge bg-warning"> Laporan Diproses</h4>
             <div class="task-container">
                 @foreach ($diproses as $lp)
                 @php
@@ -61,7 +61,7 @@
             </div>
         </div>
         <div class="col-3  ">
-            <h3>Laporan Masuk</h3>
+            <h4 class="badge bg-danger">Laporan Tertunda</h4>
             <div class="task-container">
                 @foreach ($tindak_ulang as $lp)
                 @php
@@ -71,8 +71,8 @@
                 @endforeach
             </div>
         </div>
-        <div class="col-3  ">
-            <h3>Laporan Masuk</h3>
+        <div class=" col-3 ">
+            <h4 class=" badge bg-primary">Laporan Selesai</h4>
             <div class="task-container">
                 @foreach ($selesai as $lp)
                 @php
@@ -104,105 +104,6 @@ $(document).ready(function() {
 
 });
 
-function showLaporan(id) {
-    $("document").ready(function() {
-
-
-        $.ajax({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
-            url: "/getdetaillaporan",
-            data: {
-                id: id,
-                state: ["respon_laporan", "change_log"]
-            },
-            type: "post",
-            dataType: "json",
-            success: function(data) {
-                console.log(data);
-
-                $(".modal-judul-laporan").text(data["judul_laporan"]);
-                $(".modal-isi-laporan").text(data["keterangan"]);
-                $(".modal-tanggal-laporan").text(data["created_at"]);
-                $(".modal-status-laporan").text(data["status"]);
-
-                //show gambar
-
-                for (let i = 0; i < data["lampiran"].length; i++) {
-
-                    $(".img-prev-cont").append(` <div class="carousel-item ${i == 0 ? " active" : ""}">
-                        <img src="${data["lampiran"][i]["image"]}" class="d-block mx-auto my-auto" alt="..." style="width:100%; height: 100%">
-                         </div>`);
-                }
-
-
-
-                //show petugas panel
-                let elementpetugas = data["petugas"].map(function(e) {
-
-                    return `<li class="list-group-item">${e["name"]}${e["jabatan"] === "ketua" ? `<span class="badge badge-dark ml-1" style="background: red">Ketua</span>` : ""}</li>`;
-                });
-
-                $(".list-petugas").html(elementpetugas);
-
-
-                //isi halaman keterangan
-                $("#tab-pg1 p").html(data["keterangan"]);
-
-                //isi halaman admin
-
-                $("#tab-pg2 p").html(data["respon_laporan"]["keterangan"]);
-
-                //isi status
-
-                $(".btn-status").val(data["_id"]);
-                $(".btn-status").html(data["status"]);
-                $(".btn-status").attr("url", '{{url("/laporan/selesai")}}');
-                $(".btn-status").attr("token", '{{csrf_token()}}');
-
-
-                //isi log
-                let mylog = data["log"].map(function(e) {
-                    return `<li class="list-group-item">${e["tanggal"]} <b> ${e["nama_pembuat"]} ${e["isi_keterangan"]} </b></li>`;
-                });
-                $(".list-log").html(mylog);
-
-
-            },
-            error: function(err) {
-                alert(err.responseText);
-            }
-        });
-
-
-
-    });
-}
-
-function showdetaillaporan(data) {
-
-}
-
-
-$(document).ready(function() {
-    $(".tab-open").click(function() {
-        showDetail($(this));
-    });
-});
-
-
-
-
-function showDetail(event) {
-
-    $(document).ready(function() {
-        initialize(event.attr("data-target"));
-    });
-
-}
-
-//ubahtab
 
 
 
@@ -218,120 +119,23 @@ function initialize(defaultTab = null) {
     });
 }
 </script>
-<div class="modal fade" id="modal-laporan" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
-    data-bs-focus="false">
-    <div class="modal-dialog modal-xl">
+@include("component.modallaporaninfo")
+
+<div class="modal" tabindex="-1" id="modal-selesai">
+    <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Detail Laporan</h5>
+                <h5 class="modal-title">Modal title</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <div class="containers">
-                    <div class="row">
-                        <div class="col-4">
-                            <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
-                                <div class="carousel-inner img-prev-cont my-auto">
-
-                                </div>
-                                <button class="carousel-control-prev" type="button"
-                                    data-bs-target="#carouselExampleControls" data-bs-slide="prev">
-                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                    <span class="visually-hidden">Previous</span>
-                                </button>
-                                <button class="carousel-control-next" type="button"
-                                    data-bs-target="#carouselExampleControls" data-bs-slide="next">
-                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                    <span class="visually-hidden">Next</span>
-                                </button>
-                            </div>
-                        </div>
-                        <div class="col-8">
-                            <table class="table">
-                                <tr>
-                                    <th>Judul Laporan</th>
-                                    <td>
-                                        <p class="modal-judul-laporan"></p>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th>Tanggal</th>
-                                    <td>
-                                        <p class="modal-tanggal-laporan"></p>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th>Status</th>
-                                    <td>
-                                        @include("component.status2")
-                                    </td>
-                                </tr>
-                            </table>
-                            <div class="container ">
-                                <ul class="nav nav-tabs">
-                                    <li class="nav-item">
-                                        <a class="nav-link p-2 tab-open" aria-current="page" href="#"
-                                            data-target="#tab-pg1"><b> Keterangan</b></a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link p-2 tab-open" aria-current="page" href="#"
-                                            data-target="#tab-pg2"><b> Keterangan Admin</b></a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link p-2 tab-open" aria-current="page" href="#"
-                                            data-target="#tab-pg3"><b>Petugas</b></a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link p-2 tab-open" aria-current="page" href="#"
-                                            data-target="#tab-pg4"><b>Log</b></a>
-                                    </li>
-                                </ul>
-                                <div class="cont-detail">
-                                    <div class="container tab-cont" style="height: 200px" id="tab-pg1">
-                                        <p></p>
-                                    </div>
-                                    <div class="container tab-cont" style="height: 200px" id="tab-pg2">
-                                        <p></p>
-                                    </div>
-                                    <div class="container tab-cont" style="height: 200px; " id="tab-pg3">
-                                        <ul class="list-group list-petugas  m-3" >
-                                            <li class="list-group-item">An item</li>
-
-                                        </ul>
-                                    </div>
-                                    <div class="container tab-cont" id="tab-pg4" style="height: 200px">
-                                        <ul class="list-group list-log  m-3" style="overflow-y: scroll !important;height: 200px">
-                                            <li class="list-group-item">An item</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                </div>
+                <p>Modal body text goes here.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
             </div>
         </div>
     </div>
-
-    <div class="modal" tabindex="-1" id="modal-selesai">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Modal title</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <p>Modal body text goes here.</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    @endsection
+</div>
+@endsection

@@ -9,18 +9,19 @@ use App\Http\Controllers\Auth\RegisterController;
 use Illuminate\Support\Facades\Validator;
 use RealRashid\SweetAlert\Facades\Alert;
 
+
 class UserdataController extends Controller
 {
     public function index(Request $req){
         $data = $this->getUser("all");
-        
+        $role = Role::all();
         
      //  dd($data);
 
         
-        
+       
 
-        return view("admin.userManagement.index",["datauser"=>$data]);
+        return view("admin.userManagement.index",["datauser"=>$data, "role"=>$role]);
     }
 
 
@@ -84,5 +85,26 @@ class UserdataController extends Controller
         Alert::success("Akun Berhasil Ditambahkan", $data["name"]. " telah terdaftar sebagai ". $data["role"]);
         return redirect()->back();
 
+    }
+
+
+    public function tambahrole(Request $req){
+
+     
+        $count = Role::where("name", $req->name)->count();
+        if($count < 1){
+
+       
+        $role = Role::create([
+            "name"=>$req->name
+        ]);
+
+        Alert::success("Role berhasil ditambahkan", "Role ".$req->name." sudah ditambahkan");
+           return  redirect()->back();
+        
+         }else{
+            Alert::info("Role Gagal ditambahkan", "Role ".$req->name." sudah pernah");
+            return redirect()->back();
+         }
     }
 }

@@ -23,7 +23,7 @@ class LaporanMasyarakatController extends Controller
         $laporanku = new LaporanController();
         $laporanku->tambahLaporan($req);
         Alert::success('Laporan Berhasil dibuat', 'laporan anda akan diproses oleh admin');
-        return redirect()->back();
+        return redirect("/laporansaya");
 
     }
 

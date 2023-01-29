@@ -19,4 +19,6 @@ class UserController extends Controller
         $role = Role::all()->toArray();
         return json_encode($role);
     }
+
+    
 }

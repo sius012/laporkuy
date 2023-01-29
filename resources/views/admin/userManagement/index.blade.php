@@ -1,11 +1,93 @@
 @section('title', 'Kelola Pengguna')
 @extends('layouts.app')
+@push("css")
+<style>
+.tab {
+    overflow: hidden;
+    border: 1px solid #ccc;
+    background-color: #f1f1f1;
+}
+
+/* Style the buttons inside the tab */
+.tab button {
+    background-color: inherit;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    transition: 0.3s;
+    font-size: 17px;
+}
+
+/* Change background color of buttons on hover */
+.tab button:hover {
+    background-color: #ddd;
+}
+
+/* Create an active/current tablink class */
+.tab button.active {
+    background-color: #ccc;
+}
+
+/* Style the tab content */
+.tabcontent {
+    display: none;
+    padding: 6px 12px;
+    border: 1px solid #ccc;
+    border-top: none;
+}
+</style>
+@endpush
 @section('content')
+<script>
+$(document).ready(function() {
+    function loadTab(target = null) {
+        var targetelm = target == null ? "pengguna-cont" : target;
+
+        $(".tab-cont").each(function() {
+            if ($(this).attr("id") != targetelm) {
+                $(this).hide("fast");
+                $("[data-target=" +
+                    targetelm +
+                    "]").removeClass("active");
+            } else {
+                $(this).show("fast");
+                $("[data-target=" +
+                    targetelm +
+                    "]").toggleClass("active")
+            }
+        });
+    }
+
+    loadTab();
+    $(".button-tab").click(function() {
+        loadTab($(this).attr("data-target"));
+    });
+
+});
+</script>
+
+<div class="containers m-3">
 
 
-    <div class="containers m-3">
+
+    <div>
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a class="nav-link active button-tab" aria-current="page" href="#"
+                    data-target="pengguna-cont">Pengguna</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link button-tab" href="#" data-target="role-cont">Role</a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- container content -->
+    <div class="tab-cont" id="pengguna-cont">
         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#tambah-user-modal">
-            Tambah User Modal
+            Tambah Pengguna
         </button>
         <table class="table table-stripped" id="tabel-pengguna">
             <thead>
@@ -19,17 +101,17 @@
             </thead>
             <tbody>
                 @foreach ($datauser as $i => $du)
-                    <tr>
-                        <td>{{ $i + 1 }}</td>
-                        <td>{{ $du['name'] }}</td>
-                        <td>{{ $du['email'] }}</td>
-                        <td>{{ $du['rolesdata'][0]['name'] }}</td>
-                        <td>
-                            <button class='btn btn-success' onclick="check(event)" value="{{ $du['_id'] }}">
-                                <i class="bi bi-info"></i>
-                            </button>
-                        </td>
-                    </tr>
+                <tr>
+                    <td>{{ $i + 1 }}</td>
+                    <td>{{ $du['name'] }}</td>
+                    <td>{{ $du['email'] }}</td>
+                    <td>{{ $du['rolesdata'][0]['name'] }}</td>
+                    <td>
+                        <button class='btn btn-success' onclick="check(event)" value="{{ $du['_id'] }}">
+                            <i class="bi bi-info"></i>
+                        </button>
+                    </td>
+                </tr>
                 @endforeach
             </tbody>
         </table>
@@ -37,69 +119,69 @@
 
 
     <script>
-        function check(data) {
-            $(document).ready(function() {
-                var dataelement = $(data.target);
-                var realelement;
-                if (dataelement.is("button")) {
-                    realelement = dataelement;
-                } else {
-                    realelement = dataelement.closest("button");
+    function check(data) {
+        $(document).ready(function() {
+            var dataelement = $(data.target);
+            var realelement;
+            if (dataelement.is("button")) {
+                realelement = dataelement;
+            } else {
+                realelement = dataelement.closest("button");
+            }
+
+            showDetailInfo(realelement.val());
+
+
+        });
+    }
+
+
+    function showDetailInfo(id) {
+        $(document).ready(function() {
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                url: "/admin/getuserdetail",
+                type: "post",
+                data: {
+                    id: id
+                },
+                dataType: "json",
+                success: function(data) {
+                    showModal(data);
+                },
+                error: function(err) {
+                    alert(err.responseText);
                 }
-
-                showDetailInfo(realelement.val());
-
-
             });
-        }
+        });
+    }
 
 
-        function showDetailInfo(id) {
-            $(document).ready(function() {
-                $.ajax({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    url: "/admin/getuserdetail",
-                    type: "post",
-                    data: {
-                        id: id
-                    },
-                    dataType: "json",
-                    success: function(data) {
-                        showModal(data);
-                    },
-                    error: function(err) {
-                        alert(err.responseText);
-                    }
-                });
-            });
-        }
+    function showModal(data) {
+        $(document).ready(function() {
+            console.log(data);
+            $("#modal-info-user").modal("show");
 
 
-        function showModal(data) {
-            $(document).ready(function() {
-                console.log(data);
-                $("#modal-info-user").modal("show");
-
-
-                //updateEvent
-                $(".modal-title").text(data["name"]);
-                $(".modal-nama-akun").text(data["name"]);
-                $(".modal-email-akun").text(data["email"]);
-                $(".modal-alamat-akun").text(data["alamat"] == undefined ? "" : data["alamat"]);
-                $(".modal-role-akun").text(data["rolesdata"][0]["name"]);
+            //updateEvent
+            $(".modal-title").text(data["name"]);
+            $(".modal-nama-akun").text(data["name"]);
+            $(".modal-email-akun").text(data["email"]);
+            $(".modal-alamat-akun").text(data["alamat"] == undefined ? "" : data["alamat"]);
+            $(".modal-role-akun").text(data["rolesdata"][0]["name"]);
 
 
 
-                //Case Handler
-                if (data["roles"][0]["name"] == "admin") {
-                    $.get("")
-                }
+            //Case Handler
+            if (data["roles"][0]["name"] == "admin") {
+                $.get("")
+            }
 
-            });
+        });
 
-        }
+    }
     </script>
 
 
@@ -169,22 +251,58 @@
             </div>
         </div>
     </div>
+</div>
+<div class="tab-cont" id="role-cont">
+    <button type="button" class="btn btn-primary m-3" data-bs-toggle="modal" data-bs-target="#tambah-role-modal">
+        Buat Role
+    </button>
+    <div class="container">
+        <table class="table p-3" id="tabel-role">
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Role Id</th>
+                    <th>Role Name</th>
+                    <th>Aksi</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach($role as $i => $roles)
+                <tr>
+                    <td>{{$i+1}}</td>
+                    <td>{{$roles->_id}}</td>
+                    <td>{{$roles->name}}</td>
+                    <td><button class="btn btn-danger m-3"><i class="fa fa-trash"></i></button>
+                        <button class="btn btn-warning"><i class="fa fa-edit"></i></button>
+                    </td>
+                </tr>
+                @endforeach
+            </tbody>
+        </table>
+    </div>
+</div>
+
 @endsection
 
 @section('modalparts')
-    @include('admin.usermanagement.tambahuser')
+@include('admin.usermanagement.tambahuser')
+@include('admin.usermanagement.tambahrole')
 @endsection
 
 @push("scripts")
 <script src="//cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap.min.js"></script>
 <script>
-    $(document).ready(function(){
-      
-        $("#tabel-pengguna").DataTable( {
-            buttons: []
-        });
+$(document).ready(function() {
+
+    $("#tabel-pengguna").DataTable({
+        buttons: []
     });
+
+    $("#tabel-role").DataTable({
+        buttons: []
+    });
+});
 </script>
 <script src="{{ asset("js/dataTables.buttons.min.js") }}"></script>
 <script src="{{ asset("js/buttons.bootstrap5.js") }}"></script>

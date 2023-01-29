@@ -31,7 +31,7 @@
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
     <script type="text/javascript"
         src="https://maps.google.com/maps/api/js?key=Your_Google_Key=places&callback=initAutocomplete"></script>
-    @yield("css")
+    @stack("css")
     <style>
     navbar {
         background-color: red !important;
@@ -90,11 +90,12 @@ $bg = asset("/img/bg_user.svg");
         <h3 class="m-3">@yield("title")</h3>
         @yield("content")
     </div>
-   
+
 </body>
 <footer class="text-center p-3 mt-3 bg-light shadow z-index:100">
-        <h6>Copyright © 2023 Dion Hermawan. All rights reserved.
+    <h6>Copyright © 2023 Dion Hermawan. All rights reserved.
 
-        </h6>
-    </footer>
+    </h6>
+</footer>
+
 </html>

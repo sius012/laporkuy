@@ -38,14 +38,7 @@ class userGen extends Seeder
 
 
          //Petugas
-         $role = Role::create(['name' => 'petugas']);
-         $user = new User();
-         $user->name = "Lord garok";
-         $user->email = "garoxasmoking@gmail.com";
-         $user->password = Hash::make("12345678");
- 
-         $user->assignRole('petugas');
-         $user->save();
+         
 
 
          $user = new User();

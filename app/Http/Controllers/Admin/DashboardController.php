@@ -6,9 +6,12 @@ use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
 use App\Models\Laporan;
+use App\Models\User;
 class DashboardController extends Controller
 {
     public function index(){
+        $role = ["admin","petugas"];
+        
         $laporanMenunggu = Laporan::where("status","menunggu")->count();
         $laporanKepetugas = Laporan::where("status","kepetugas")->count();
         $laporanDiproses = Laporan::where("status","diproses")->count();

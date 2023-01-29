@@ -1,0 +1,6 @@
+yg belum
+
+- fix tampilan user (important)
+- fix status change selesai di modal petugas (important)
+- buat menu pengaturan akun
+- pilihan banyak case (jenis laporan)

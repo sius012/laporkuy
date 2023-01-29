@@ -1,7 +1,7 @@
-
 <div class="card m-3 shadow">
-    <div class="card-header">
-        <p class=" fs-6"><b>{{$lp["judul_laporan"]}} <span class="badge  fs-6 {{renderSpan($lp['status'])}}">{{ucwords($lp["status"])}}</span></b>
+    <div class="card-header header-task">
+        <p class=" fs-6"><b>{{$lp["judul_laporan"]}} <span
+                    class="badge  fs-6 {{renderSpan($lp['status'])}}">{{ucwords($lp["status"])}}</span></b>
         </p>
     </div>
     <div class="card-body">
@@ -120,8 +120,8 @@
         </div>
     </div>
     <div class="card-footer">
-        <button class="btn btn-success lampiran-saya" data-bs-toggle="modal" data-bs-target="#exampleModal" value="{{$lp['_id']}}" ><i
-                class="fa fa-image"></i></button>
+        <button class="btn btn-success lampiran-saya" data-bs-toggle="modal" data-bs-target="#exampleModal"
+            value="{{$lp['_id']}}"><i class="fa fa-image"></i></button>
 
     </div>
 

@@ -25,32 +25,32 @@ $(document).ready(function() {
 
 
     $(".lampiran-saya").click(function() {
-            $.ajax({
-                    url: "/getdetaillaporan",
+        $.ajax({
+            url: "/getdetaillaporan",
 
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    data: {
-                        id: $(this).val(),
-                    },
-                    dataType: "json",
-                    type: "post",
-                    success: function(data) {
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            data: {
+                id: $(this).val(),
+            },
+            dataType: "json",
+            type: "post",
+            success: function(data) {
 
-                       // $(".img-prev").html("");
-                        data["lampiran"].map(function(e,i){
-                            $(".img-prev").append(` <div class="carousel-item ${i == 0 ? " active" : ""}">
+                // $(".img-prev").html("");
+                data["lampiran"].map(function(e, i) {
+                    $(".img-prev").append(` <div class="carousel-item ${i == 0 ? " active" : ""}">
                                 <img src="${e["image"]}" class="d-block mx-auto" alt="..." style="width:100%; height: 400px">
                             </div>`);
-                        });
-                    
-                },
-                error: function(err) {
-                    alert(err.responseText);
-                }
-            });
-});
+                });
+
+            },
+            error: function(err) {
+                alert(err.responseText);
+            }
+        });
+    });
 
 
 });
@@ -108,7 +108,34 @@ $(document).ready(function() {
         <div class="col-1"></div>
         <div class="col-4">
             <div class="card" style="height: 100%">
-
+                <div class="card p-3 m-3 mb-0 inbox-header">
+                    <div class=" row">
+                        <div class="col-1">
+                            <i class="fa fa-message"></i>
+                        </div>
+                        <div class="col-11">
+                            <h5>Inbox</h5>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="card m-3 p-3" class="">
+                            <div class=" card">
+                                <div class="row">
+                                    <div class="col-3 d-flex">
+                                        <img src="https://cdn-icons-png.flaticon.com/512/146/146035.png" alt=""
+                                            class="rounded-circle my-auto p-3">
+                                    </div>
+                                    <div class="col-9 p-2">
+                                        <p><b>Jotaro Kujo</b> <span class=" badge bg-primary">Admin</span></p>
+                                        <p>Halo...</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

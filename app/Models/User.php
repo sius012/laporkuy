@@ -10,11 +10,13 @@ use Laravel\Sanctum\HasApiTokens;
 use Jenssegers\Mongodb\Eloquent\Model as Eloquent;
 use Maklad\Permission\Traits\HasRoles;
 use Maklad\Permission\Models\Role;
+use Auth;
 
 class User extends  Authenticatable
 {
+  
     use HasApiTokens, HasFactory, Notifiable,HasRoles;
-
+    protected $collection = "users";
     /**
      * The attributes that are mass assignable.
      *
@@ -45,4 +47,54 @@ class User extends  Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public static function hasRole($role){
+        $roles = [$role];
+
+        
+        if (Auth::check()) {
+
+            $myRole = auth()->user()->role_ids;
+        
+            $canLogin = false;
+            foreach($myRole as $mr){
+                $roleku = Role::where("_id",$mr)->first()->name;
+                if(in_array($roleku, $roles)){
+                  return true;
+                }
+            }
+
+            if($canLogin == true){
+                return true;
+            }
+
+            return false;
+        
+            
+          }else{
+            return false;
+          }
+    }
+
+
+    public static function myRole(){
+        $role = [];
+            if (Auth::check()) {
+
+            $myRole = auth()->user()->role_ids;
+        
+            $canLogin = false;
+            foreach($myRole as $i=> $mr){
+                $roleku = Role::where("_id",$mr)->first()->name;
+                $role[$i] = $roleku;
+            }
+            
+          }else{
+            return ["netrality"];
+          }
+
+          return $role;
+    }
+
+    
 }

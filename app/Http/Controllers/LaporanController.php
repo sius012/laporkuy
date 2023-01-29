@@ -45,6 +45,7 @@ class LaporanController extends Controller
     }
 
     public function buatLaporan(Request $req){
+        
         $this->tambahLaporan($req);
     
         return redirect()->back();
@@ -278,7 +279,9 @@ class LaporanController extends Controller
     
 
     public function tambahLaporan(Request $req){
-     
+        if(!Auth::check()){
+            return redirect("login");
+        }
             $lampiran = [];
 
         $pelapor = User::where("_id", Auth::user()->id)->first()->toArray();

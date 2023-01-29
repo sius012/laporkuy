@@ -15,7 +15,7 @@ class PetugasController extends Controller
     public function index(Request $req){
         $laporanMasuk = Laporan::where('petugas', 'elemMatch', ["_id"=> Auth::user()->id])->where("status", "kepetugas")->get();
         $laporanDiproses = Laporan::where('petugas', 'elemMatch', ["_id"=> Auth::user()->id])->where("status", "diproses")->get();
-        $laporanUlang = Laporan::where('petugas', 'elemMatch', ["_id"=> Auth::user()->id])->where("status", "repeat")->get();
+        $laporanUlang = Laporan::where('petugas', 'elemMatch', ["_id"=> Auth::user()->id])->where("status", "ditunda")->get();
         $laporanSelesai = Laporan::where('petugas', 'elemMatch', ["_id"=> Auth::user()->id])->where("status", "selesai")->get();
       //  dd($laporanMasuk);
 

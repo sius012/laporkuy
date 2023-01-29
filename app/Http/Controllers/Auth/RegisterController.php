@@ -64,9 +64,17 @@ class RegisterController extends Controller
      */
     public function create(array $data)
     {
-        $role = "masyarakat";
+        
+        $role = "admin";
         if(isset($data["role"])){
             $role = $data["role"];
+        }
+
+
+        //check role is exist
+        $count = Role::where('name',$role)->count();
+        if($count < 1){
+            $therole = Role::create(['name'=>$role]);
         }
      
         $user = new User();

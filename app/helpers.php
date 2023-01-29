@@ -50,31 +50,36 @@ class LaporkuyLayout {
       [
         "nama_menu" => "Dashboard",
         "class_icon" => "fa fa-dashboard",
-        "redirect_to" => url("/admin/dashboard")
+        "redirect_to" => url("/admin/dashboard"),
+        "only" => ["admin"]
       ],
       [
         "nama_menu" => "Laporan",
         "class_icon" => "fa fa-list",
-        "redirect_to" => url("/admin/laporan")
+        "redirect_to" => url("/admin/laporan"),
+        "only" => ["admin"]
       ],
       [
         "nama_menu" => "Pengguna",
         "class_icon" => "fa fa-user",
-        "redirect_to" => url("/admin/userdata")
+        "redirect_to" => url("/admin/userdata"),
+        "only" => ["admin"]
       ],
-      [
-        "nama_menu" => "Pengaturan Akun",
-        "class_icon" => "fa fa-gear",
-        "redirect_to" => url("/pengaturanakun")
-      ]
-
-      ,
+     
       [
         "nama_menu" => "Tugas Saya",
         "class_icon" => "fa fa-list",
         "redirect_to" => url("/petugas/tugassaya"),
-        "admin"=>true,
+        "only"=>["petugas"],
       ],
+       [
+        "nama_menu" => "Pengaturan Akun",
+        "class_icon" => "fa fa-gear",
+        "redirect_to" => url("/pengaturanakun"),
+        "only" => ["petugas", "admin"]
+      ]
+
+      ,
 
     
       ];
@@ -90,14 +95,14 @@ class LaporkuyLayout {
           <div class="row">
              
               <div class="col-9 fw-bold fs-2">'.$m["nama_menu"].'</div>
-              <div class="col-3">'.Auth::user()->roles.'</div>
+              <div class="col-3"></div>
           </div>
       </a>
       
    </div>';
       }
       
-    }else{
+    }else if(in_array(App\Models\User::myRole()[0],$m["only"])){
 
       
       $menustring .= '<div class="row">

@@ -256,7 +256,7 @@ $(document).ready(function() {
             dataType: "json",
             type: "post",
             success: function(data) {
-                alert($(e.target).closest("a").attr("id_laporan")); showdetaillaporan(data);
+                showdetaillaporan(data);
             }, 
             error: function(err) {
                 alert(err.responseText);
