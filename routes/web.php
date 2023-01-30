@@ -74,9 +74,13 @@ Route::post("/laporan/selesai", [App\Http\Controllers\LaporanController::class, 
 
 
 
-//General
-Route::post('/caripetugas', [PetugasController::class, 'cariPetugas'])->name('petugas.cari');
-Route::post('/user/getroles', [App\Http\Controllers\UserController::class,  "getroles"])->name('user.getro');
+//General Need Auth
+Route::middleware("auth")->group(function(){
+    Route::post('/caripetugas', [PetugasController::class, 'cariPetugas'])->name('petugas.cari');
+    Route::post('/user/getroles', [App\Http\Controllers\UserController::class,  "getroles"])->name('user.getro');
+    Route::get('/pengaturanakun', [App\Http\Controllers\PengaturanAkunController::class,  "index"])->name('pengaturan.akun');
+    Route::post('/editaccount', [App\Http\Controllers\PengaturanAkunController::class, "perbaruiakun"]);
+});
 
 Route::get("/redirect", [App\Http\Controllers\RedirectController::class,  "index"])->name('route.redirect');
 
