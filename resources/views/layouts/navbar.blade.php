@@ -8,7 +8,7 @@
       <ul class="navbar-nav me-auto mb-2 mb-lg-0 d-flex" >
         <li class="nav-item">
             
-          <a class="nav-link active" aria-current="page" href="{{url('laporan')}}"> <i class="bi bi-house-door-fill"></i> Beranda</a>
+          <a class="nav-link active" aria-current="page" href="{{url('/')}}"> <i class="bi bi-house-door-fill"></i> Beranda</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="{{url('laporansaya')}}"> <i class="bi bi-card-text"></i> Laporan Saya</a>

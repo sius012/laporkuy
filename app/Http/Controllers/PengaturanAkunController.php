@@ -22,8 +22,22 @@ class PengaturanAkunController extends Controller
             if($row!="token"){
                 $arr = [];
                 $arr[$row] = $f;
+                
+                if($row=="password"){
+                    $arr[$row] = Hash::make($f);
+                }else{
+                    
+                }
+
                 User::where("_id",$id)->update($arr);
+                
             }
+        }   
+
+        //check if image uploaded
+        if($req->hasFile("foto_profil")){
+            $image = base64_encode(file_get_contents($req->file("foto_profil")));
+            User::where("_id",$id)->update(["foto_profil"=>"data:image/jpg;base64,".$image]);
         }
 
         return redirect()->back();

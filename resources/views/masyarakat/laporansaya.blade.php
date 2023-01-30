@@ -65,7 +65,7 @@ $(document).ready(function() {
     <div class="row" style="height: 100vh">
 
         <div class="col-6">
-            <div class="card p-3">
+            <div class="card shadow p-3">
                 <form action="" method="GET">
 
                     <div class="row">
@@ -105,37 +105,21 @@ $(document).ready(function() {
             @include("component.laporan_comp")
             @endforeach
         </div>
-        <div class="col-1"></div>
-        <div class="col-4">
-            <div class="card" style="height: 100%">
-                <div class="card p-3 m-3 mb-0 inbox-header">
-                    <div class=" row">
-                        <div class="col-1">
-                            <i class="fa fa-message"></i>
-                        </div>
-                        <div class="col-11">
-                            <h5>Inbox</h5>
-                        </div>
+        <div class="col m-0">
+            <div class="card shadow-lg" style="height: 100%">
+                <div class="row p-3">
+                    <h3>Laporan sebelumnya</h3>
+                </div>
+
+                <div class="card shadow-sm p-3 m-3">
+                    <div class="row">
+                        <div class="col-1"><i class="fa fa-list"></i></div>
+                        <div class="col-6"><b>Kebakaran Hutan</b></div>
+                        <div class="col-3"><span class="badge {{renderSpan('selesai')}}">Selesai</span></div>
+                        <div class="col-2"><i class="fa fa-calendar"></i></div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col">
-                        <div class="card m-3 p-3" class="">
-                            <div class=" card">
-                                <div class="row">
-                                    <div class="col-3 d-flex">
-                                        <img src="https://cdn-icons-png.flaticon.com/512/146/146035.png" alt=""
-                                            class="rounded-circle my-auto p-3">
-                                    </div>
-                                    <div class="col-9 p-2">
-                                        <p><b>Jotaro Kujo</b> <span class=" badge bg-primary">Admin</span></p>
-                                        <p>Halo...</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+
             </div>
         </div>
     </div>

@@ -63,7 +63,7 @@
     @isset($latat)
     <style>
     .nav-link {
-        color: rgb(0, 0, 0) !important;
+        color: #32064f !important;
     }
 
     nav {
@@ -75,6 +75,30 @@
         color: rgb(7, 7, 7) !important;
         font-weight: bold;
     }
+
+    .card{
+        border: none;   
+        box-shadow: 0px 0px -2px black !important;
+    }
+
+    .body-user {
+ 
+}
+
+@keyframes gradient-animation {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+   
+
+  
     </style>
     @endisset
 </head>
@@ -82,7 +106,7 @@
 $bg = asset("/img/bg_user.svg");
 @endphp
 
-<body class="" style="overflow-x: hidden; ">
+<body class="body-user" style="overflow-x: hidden; ">
     @stack("scripts")
     @include("sweetalert::alert")
     @include("layouts.navbar")
