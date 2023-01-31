@@ -1,9 +1,8 @@
 @extends('layouts.layout_user')
-@section('css')
+@push('css')
 <style>
 section {
-    background-color: #431280;
-
+    background-color: #431280 !important;
 
     height: 600px;
 }
@@ -38,7 +37,7 @@ section {
     font-size: 20pt
 }
 </style>
-@endsection
+@endpush
 @push("scripts")
 <script>
 function init() {

@@ -1,5 +1,7 @@
 @extends("layouts.layout_user")
-@section("title", "Laporan Saya")
+@section("title")
+    <h3 class='p-3'>Laporan Saya</h3>
+@endsection
 @section("titletab", "Laporan Saya")
 @section("content")
 @push("scripts")
@@ -108,18 +110,20 @@ $(document).ready(function() {
         <div class="col m-0">
             <div class="card shadow-lg" style="height: 100%">
                 <div class="row p-3">
-                    <h3>Laporan sebelumnya</h3>
+                    <h3><i class="fa fa-history"></i> Riwayat Laporan Saya</h3>
                 </div>
 
+                @foreach($laporan as $lp)
                 <div class="card shadow-sm p-3 m-3">
                     <div class="row">
                         <div class="col-1"><i class="fa fa-list"></i></div>
-                        <div class="col-6"><b>Kebakaran Hutan</b></div>
-                        <div class="col-3"><span class="badge {{renderSpan('selesai')}}">Selesai</span></div>
-                        <div class="col-2"><i class="fa fa-calendar"></i></div>
+                        <div class="col-3" data-bs-toggle="tooltip" title="{{$lp['judul_laporan']}}"><b >{{truncate($lp["judul_laporan"],30)}}</b></div>
+                        <div class="col-3">{{truncate($lp["keterangan"],20)}}</div>
+                        <div class="col-3"><span class="badge {{renderSpan($lp['status'])}}">{{$lp["status"]}}</span></div>
+                        <div class="col-2"><span><i class="fa fa-calendar pl-3"></i>{{date('d-m-y')}}</span></div>
                     </div>
                 </div>
-
+                @endforeach
             </div>
         </div>
     </div>

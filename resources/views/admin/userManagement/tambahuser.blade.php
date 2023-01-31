@@ -49,6 +49,10 @@
                 <input type="email" class="form-control" id="emailpengguna" aria-describedby="emailHelp" name="email">
             </div>
             <div class="mb-3">
+                <label for="nikpengguna" class="form-label">NIK</label>
+                <input type="text" class="form-control" id="nikpengguna" aria-describedby="emailHelp" name="nik">
+            </div>
+            <div class="mb-3">
                 <label for="alamatpengguna" class="form-label">Alamat Pengguna</label>
                 <input type="text" class="form-control" id="alamatpengguna" aria-describedby="emailHelp" name="alamat">
             </div>
@@ -67,8 +71,8 @@
             
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="submit" class="btn btn-primary">Tambah Pengguna</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+          <button type="submit" class="btn btn-primary perbarui-pengguna">Tambah Pengguna</button>
         </div>
     </form>
       </div>

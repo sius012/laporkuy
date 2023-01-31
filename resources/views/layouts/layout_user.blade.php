@@ -33,6 +33,11 @@
         src="https://maps.google.com/maps/api/js?key=Your_Google_Key=places&callback=initAutocomplete"></script>
     @stack("css")
     <style>
+    *{
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue",
+        sans-serif; 
+    }
     navbar {
         background-color: red !important;
     }
@@ -58,21 +63,29 @@
     .disabled {
         color: #d1d1d1;
     }
-    </style>
 
+    .html{
+        margin: ;
+    }
+
+   
+    
+
+    </style>
+    
     @isset($latat)
     <style>
     .nav-link {
-        color: #32064f !important;
+        color: white !important;
     }
 
     nav {
-        box-shadow: 0px 0px 3px -2px black;
-        background: white;
+        box-shadow: 0px 0px 5px -2px black;
+        background: #1a1424;
     }
 
     .navbar-brand {
-        color: rgb(7, 7, 7) !important;
+        color: white !important;
         font-weight: bold;
     }
 
@@ -81,9 +94,7 @@
         box-shadow: 0px 0px -2px black !important;
     }
 
-    .body-user {
- 
-}
+  
 
 @keyframes gradient-animation {
   0% {
@@ -111,7 +122,7 @@ $bg = asset("/img/bg_user.svg");
     @include("sweetalert::alert")
     @include("layouts.navbar")
     <div class="containers">
-        <h3 class="m-3">@yield("title")</h3>
+    @yield("title")
         @yield("content")
     </div>
 

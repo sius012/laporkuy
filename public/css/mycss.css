@@ -104,11 +104,5 @@ li a {
 }
 
 .header-task {
-    background: linear-gradient(
-        90deg,
-        rgba(91, 0, 226, 1) 0%,
-        rgba(123, 0, 255, 1) 100%
-    );
-
-    color: white !important;
+    
 }

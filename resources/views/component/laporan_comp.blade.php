@@ -1,8 +1,8 @@
 <div class="card m-3 shadow">
     <div class="card-header header-task">
-        <p class=" fs-6"><b>{{$lp["judul_laporan"]}} <span
+        <span class=" fs-6"><b>{{$lp["judul_laporan"]}} <span
                     class="badge  fs-6 {{renderSpan($lp['status'])}}">{{ucwords($lp["status"])}}</span></b>
-        </p>
+</span>
     </div>
     <div class="card-body">
         <div class="row">
@@ -12,7 +12,7 @@
                 <div class="row">
                     <div class="col">
                         <b>
-                            <p>Dionisius Setya hermawan (Anda)</p>
+                            <p>{{auth()->user()->name}} (Anda)</p>
                         </b>
                     </div>
                 </div>
@@ -67,10 +67,11 @@
                         <div class="container">
                             @if($lp["admin"]!=null)
                             @if(isset($lp["log"]))
-                            <p>ChangeLog: <b>{{$lp["admin"]["name"]}}</b></p>
-                            <span class="fs-6 ">direspon pada </span>
-                            <div class="badge bg-warning">{{date("Y-m-d")}}</div>
-                            <div class="card p-2 m-3">{{$lp["respon_laporan"]["keterangan"]}}</div>
+                            <ul class="list-group">
+                                @foreach($lp["log"] as $lg)
+                                  <li class="list-group-item"><span>{{$lg["tanggal"]}}</span>  <span><b>{{$lg["nama_pembuat"]}}</b></span> <span>{{$lg["isi_keterangan"]}}</span></li>
+                                @endforeach 
+                            </ul>
                             @endif
                             @endif
                         </div>

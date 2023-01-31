@@ -107,4 +107,21 @@ class UserdataController extends Controller
             return redirect()->back();
          }
     }
+
+    public function edituser(Request $req){
+        $user = $this->getUser("single", $req->id);
+
+        return json_encode($user);
+    }
+
+
+    public function editroleuser(Request $req){
+        $role_ids = Role::where("name",$req->role)->pluck("_id")->first();
+      //  dd($role_ids);
+        $user = User::find($req->id);
+        $user->role_ids = [$role_ids];
+        $user->save();
+
+        return redirect()->back();
+    }
 }

@@ -206,7 +206,7 @@ function initialize() {
 var counter = 0;
 
 function showdetaillaporan(data) {
-
+  
     $(".container-petugas").html("");
     for (var j = 0; j < data["petugas"].length; j++) {
         tambahRow(data, "fromdb", j);
@@ -228,7 +228,7 @@ function tambahRow(te, mode = null, index = null) {
                             </select>
                           </td>
                           <td>
-                            <button class='btn btn-danger'><i class='bi bi-trash'></i></button>
+                            <button type="button" class='btn btn-danger hps-petugas' value="${mode == "fromdb" ? te["petugas"][index]["_id"] : te.attr("uid")}"><i class='bi bi-trash'></i></button>
                             ${mode == "fromdb" ? "<button class='btn btn-warning'><i class='bi bi-pen'></i></button>" : ""}
                           </td>
                         </tr>
@@ -239,7 +239,13 @@ $(document).ready(function() {
     initialize();
 
 
-    $(document).on("click", ".td-laporan",function(e) {
+    $(document).delegate(
+        ".hps-petugas", "click", function(){
+            $(this).closest("tr").hide("slow").delay(10).queue(function(){$(this).remove();});;
+        }
+    )
+    $(document).delegate(".td-laporan","click", function(e) {
+        var element = $(this);
         $("#id-laporan").val($(this).attr("id_laporan"));
 
     
@@ -256,6 +262,18 @@ $(document).ready(function() {
             dataType: "json",
             type: "post",
             success: function(data) {
+                if(element.attr("target") == "update"){
+                    $(".btn-assigment").text("Perbarui");
+                    $(".btn-assigment").val("update");
+                    $(".btn-assigment").attr("name", "target");
+                    $("#assigment-form").attr("action", '{{url("/admin/perbaruipetugas")}}');
+                }else{
+                    $(".btn-assigment").text("Assigment");
+                    $(".btn-assigment").val("");
+                    $(".btn-assigment").removeAttr("name");
+                    $("#assigment-form").attr("action", '{{url("/admin/tambahpetugas")}}');
+                }
+                
                 showdetaillaporan(data);
             }, 
             error: function(err) {
@@ -330,7 +348,7 @@ $(document).ready(function() {
 
 });
 </script>
-<form action="{{url('/admin/tambahpetugas')}}" method="post">
+<form action="{{url('/admin/tambahpetugas')}}" method="post" id="assigment-form">
     <div class="modal fade" id="modalAssigment" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 
         <div class="modal-dialog modal-xl">
@@ -378,7 +396,7 @@ $(document).ready(function() {
 </div>
 <div class="modal-footer">
     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-    <button type="submit" class="btn btn-primary">Assigment</button>
+    <button type="submit" class="btn btn-primary btn-assigment">Assigment</button>
 </div>
 </form>
 

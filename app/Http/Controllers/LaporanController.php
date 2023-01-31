@@ -56,16 +56,10 @@ class LaporanController extends Controller
     public function tambahPetugas(Request $req){
         $idLaporan = $req->idlaporan;
 
-        
-       
         $daftarpetugas = [];
         foreach($req->input("uid") as $i => $fc){
             $datapetugas = User::role("petugas")->find($fc);
 
-
-            
-            
-            
             $daftarpetugas[$i] = $datapetugas->toArray();
             $daftarpetugas[$i]["jabatan"] = $req->jabatan[$i];
 
@@ -103,7 +97,27 @@ class LaporanController extends Controller
 
 
         //ChangeLog
-        
+        if($req->has("target")){
+            if($req->target == "update"){
+                cllController::updateLog($idLaporan,
+                    [
+                        "nama_pembuat" => Auth::user()->name,
+                        "isi_keterangan" => "memperbarui respon dan petugas",
+                        "tanggal" => date("Y-m-d H:i:s")
+                     ]);
+            }
+
+            Alert::success("Pembaruan Berhasil", "respon laporan telah diperbarui");
+        }else{
+            cllController::updateLog($idLaporan,
+                [
+                    "nama_pembuat" => Auth::user()->name,
+                    "isi_keterangan" => "merespon laporan",
+                    "tanggal" => date("Y-m-d H:i:s")
+                ]
+            );
+            Alert::success("Berhasil mengirim respon", "respon laporan telah diperbarui");
+        }
 
         
         return redirect()->back();
@@ -129,6 +143,11 @@ class LaporanController extends Controller
             ->editColumn("pelapor.name", function($data){
                 return $data->pelapor["name"];})
             ->editColumn('petugas', function($data){
+
+                $dataraw = "<a class='td-laporan' id_laporan='".$data->_id."' href='#' data-bs-toggle='modal'
+                data-bs-target='#modalAssigment' data-bs-whatever='@mdo' ".($data->petugas != null ? " target='update'" : " target='create'")."><i class='bi bi-pencil-fill'></i></a>";
+
+
                 if($data->petugas != null){
                 
                   $daftarpetugas = "";
@@ -154,12 +173,12 @@ class LaporanController extends Controller
 
                   }
 
-                  return "<p>".$daftarpetugas."</p>";
+                  $dataraw .="<span>".$daftarpetugas."</span>";
               
                 }else{
-                return "<a class='td-laporan' id_laporan='".$data->_id."' href='#' data-bs-toggle='modal'
-                        data-bs-target='#modalAssigment' data-bs-whatever='@mdo'><i class='bi bi-pencil-fill'></i></a>";
+                
                 }
+                return $dataraw;
             })
             ->editColumn("status", function($data){
                 return '<div class="btn-group">
@@ -334,7 +353,13 @@ class LaporanController extends Controller
        Alert::success("Laporan Selesai", "Anda Mengakhiri Laporan");
 
        $req->status = "selesai";
+
+
        //ChangeLog 
+        
+
+
+
        $this->ubahstatuslaporan($req);
        return redirect()->back();
 

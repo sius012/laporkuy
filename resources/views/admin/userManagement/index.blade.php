@@ -41,7 +41,78 @@
 @endpush
 @section('content')
 <script>
+function setmodaluser(data){
+    $("#namapengguna").val(data["name"]);
+    $("#emailpengguna").val(data["email"]);
+    $("#alamatpengguna").val(data["alamat"]);
+    $("#passwordpengguna").val(12345678);
+    $("#rolepengguna").children("option").each(function(){
+        if($(this).val()==data["rolesdata"][0]["name"]){
+            $(this).attr("selected", "selected");
+        }else{
+            $(this).removeAttr("selected");
+        }
+    });
+
+
+    //buat semua inputan modal menjadi readonly
+    $("#tambah-user-modal").find("input").each(function(){
+        $(this).attr("readonly","readonly");
+    });
+
+    //update action form
+    $("#tambah-user-modal").find("form").attr("action","{{url('admin/editroleuser')}}");
+   
+
+    $(".perbarui-pengguna").text("Perbarui");
+    $(".perbarui-pengguna").val(data["_id"]);
+    $(".perbarui-pengguna").attr("name","id");
+    
+}
+
+function resetmodaluser(){
+
+
+
+
+    //buat semua inputan modal menjadi readonly
+    $("#tambah-user-modal").find("input").each(function(){
+        $(this).removeAttr("readonly");
+        $(this).val("");
+    });
+
+     //update action form
+     $("#tambah-user-modal").find("form").attr("action","{{url('admin/tambahuser')}}");
+
+    $(".perbarui-pengguna").text("Tambah Pengguna")
+    
+}
 $(document).ready(function() {
+    $(".btn-edit-user").click(function(){
+       
+        $.ajax({
+            url: "/getuserdata",
+
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            data: {
+                id: $(this).val(),
+            },
+            dataType: "json",
+            type: "post",
+            success: function(data) {
+                setmodaluser(data);
+            }, 
+            error: function(err) {
+                alert(err.responseText);
+            }
+        });
+
+
+    });
+
+
     function loadTab(target = null) {
         var targetelm = target == null ? "pengguna-cont" : target;
 
@@ -65,6 +136,22 @@ $(document).ready(function() {
         loadTab($(this).attr("data-target"));
     });
 
+    //
+   
+
+
+    $(".tambah-modal").click(function(){
+        resetmodaluser();
+    });
+
+
+
+    $(".btn-edit-role").click(function(){
+        $("#namarole").val($(this).attr("value2"));
+    }); 
+
+    
+
 });
 </script>
 
@@ -72,7 +159,7 @@ $(document).ready(function() {
 
 
 
-    <div>
+    <div class="mb-3">
         <ul class="nav nav-tabs">
             <li class="nav-item">
                 <a class="nav-link active button-tab" aria-current="page" href="#"
@@ -86,7 +173,7 @@ $(document).ready(function() {
 
     <!-- container content -->
     <div class="tab-cont" id="pengguna-cont">
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#tambah-user-modal">
+        <button type="button" class="btn btn-primary tambah-modal" data-bs-toggle="modal" data-bs-target="#tambah-user-modal">
             Tambah Pengguna
         </button>
         <table class="table table-stripped" id="tabel-pengguna">
@@ -107,8 +194,11 @@ $(document).ready(function() {
                     <td>{{ $du['email'] }}</td>
                     <td>{{ $du['rolesdata'][0]['name'] }}</td>
                     <td>
-                        <button class='btn btn-success' onclick="check(event)" value="{{ $du['_id'] }}">
-                            <i class="bi bi-info"></i>
+                        <button class='btn btn-danger pr-4 btn-delete-user' onclick="check(event)" value="{{ $du['_id'] }}" data-bs-toggle="modal" data-bs-target="">
+                            <i class="fa fa-trash"></i>
+                        </button>
+                        <button class=' m-1  my-0 btn btn-warning pr-4 btn-edit-user' onclick="" value="{{ $du['_id'] }}" data-bs-toggle="modal" data-bs-target="#tambah-user-modal">
+                            <i class="fa fa-edit"></i>
                         </button>
                     </td>
                 </tr>
@@ -256,7 +346,7 @@ $(document).ready(function() {
     <button type="button" class="btn btn-primary m-3" data-bs-toggle="modal" data-bs-target="#tambah-role-modal">
         Buat Role
     </button>
-    <div class="container">
+    <div class="containers">
         <table class="table p-3" id="tabel-role">
             <thead>
                 <tr>
@@ -272,8 +362,11 @@ $(document).ready(function() {
                     <td>{{$i+1}}</td>
                     <td>{{$roles->_id}}</td>
                     <td>{{$roles->name}}</td>
-                    <td><button class="btn btn-danger m-3"><i class="fa fa-trash"></i></button>
-                        <button class="btn btn-warning"><i class="fa fa-edit"></i></button>
+                    <td>
+                        <button class="btn btn-warning btn-edit-role" value="{{$roles->_id}}" value2="{{$roles->name}}"
+                        data-bs-toggle = "modal"
+                        data-bs-target = "#tambah-role-modal"
+                        ><i class="fa fa-edit"></i></button>
                     </td>
                 </tr>
                 @endforeach

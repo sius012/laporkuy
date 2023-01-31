@@ -40,7 +40,7 @@ getroledata("#rolepengguna");
                 <div class="modal-body">
                     <div class="mb-3">
                         <label for="namapengguna" class="form-label">Role</label>
-                        <input type="text" class="form-control" id="namapengguna" aria-describedby="emailHelp"
+                        <input type="text" class="form-control" id="namarole" aria-describedby="emailHelp"
                             name="name">
                     </div>
                 </div>

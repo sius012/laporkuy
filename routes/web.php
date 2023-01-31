@@ -35,15 +35,15 @@ Route::middleware(["rolenew:petugas|admin"])->prefix("petugas")->group(function(
 });
 
 Route::middleware(["rolenew:admin"])->prefix("admin")->group(function(){
-    
+        
         //Dashboard
         Route::get('/dashboard', [App\Http\Controllers\Admin\DashboardController::class, 'index']);
         Route::get('/laporan', [App\Http\Controllers\LaporanController::class, 'index'])->name("admin.laporan.index");
         Route::post('/buatlaporan', [App\Http\Controllers\LaporanController::class, 'buatLaporan'])->name('admin.laporan.buat');
 
-        //laporanPenambahanPetugas
+        //laporanPetugas
         Route::post('/tambahpetugas', [App\Http\Controllers\LaporanController::class, 'tambahPetugas'])->name('admin.laporan.tambahpetugas');
-
+        Route::post('/perbaruipetugas', [App\Http\Controllers\LaporanController::class, 'tambahPetugas'])->name('admin.laporan.perbaruipetugas');
         //dapatkaninformasidetail
 
 
@@ -54,6 +54,7 @@ Route::middleware(["rolenew:admin"])->prefix("admin")->group(function(){
         Route::post('/getuserdetail', [App\Http\Controllers\UserdataController::class, 'getuserdetail'])->name('admin.user.detail');
         Route::post('/tambahuser',[App\Http\Controllers\UserdataController::class, 'tambahuser']);
          Route::post('/tambahrole',[App\Http\Controllers\UserdataController::class, 'tambahrole']);
+         Route::post('/editroleuser',[App\Http\Controllers\UserdataController::class, 'editroleuser']);
 
         Route::get('/laporan/hapus/{id}', [App\Http\Controllers\LaporanController::class, 'hapusLaporan']);
 });
@@ -62,7 +63,8 @@ Route::middleware(["rolenew:admin"])->prefix("admin")->group(function(){
 
     
 
-
+//General
+Route::post('/getuserdata', [App\Http\Controllers\UserDataController::class,  "edituser"]);
 
 
 //Laporan General
