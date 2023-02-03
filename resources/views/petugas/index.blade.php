@@ -19,9 +19,6 @@
     height: 500px;
 }
 
-.nav-link {
-    color: black !important;
-}
 
 .card-task:hover {
     outline: 0px solid transparent;
@@ -90,35 +87,7 @@
 
 
 @section('modalparts')
-<script>
-$(document).ready(function(e) {
-    initialize();
-});
 
-$(document).ready(function() {
-
-    $('#tuning-options li .dropdown-item-petugas').click(function() {
-
-        changeStatus($(this), $("#modal-selesai"));
-    });
-
-});
-
-
-
-
-///INISIALISASI
-function initialize(defaultTab = null) {
-    let activepage = defaultTab != null ? defaultTab : "#tab-pg1";
-    $(".tab-cont").each(function() {
-        if ($(this).attr("id") != activepage.slice(1)) {
-            $(this).hide();
-        } else {
-            $(this).show();
-        }
-    });
-}
-</script>
 @include("component.modallaporaninfo")
 
 <div class="modal" tabindex="-1" id="modal-selesai">

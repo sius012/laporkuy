@@ -1,6 +1,5 @@
 @extends("layouts.app")
 @section("title","Laporan")
-
 @section("content")
 
 
@@ -15,23 +14,59 @@
 
 
 
-<button type="button" class="btn btn-primary my-1 mx-3" data-bs-toggle="modal" data-bs-target="#exampleModal">
+<!-- <button type="button" class="btn btn-primary-lk my-1 mx-3" data-bs-toggle="modal" data-bs-target="#exampleModal">
     Tambahkan data
-</button>
+</button> -->
+<div class="container-fluid my-3">
+    <form action="{{url('/admin/laporan')}}" id="filter-form">
+        @csrf
+    <div class="card p-2">
+        <h5>Filter</h5>
+        <div class="row p-3">
+            <div class="col">
+                <label for="">Pilih Status</label>
+                <select id="" class="form-select" name="status">
+                    <option value="">Pilih Status</option>
+                    <option value="menunggu">Menunggu</option>
+                    <option value="kepetugas">Ke Petugas</option>
+                    <option value="ditunda">Ditunda</option>
+                    <option value="diproses">Diproses</option>
+                    <option value="selesai">Selesai</option>
+                </select>
+            </div>
+            <div class="col">
+                <b><label for="">Dari</label></b>
+                <input type="date" class="form-control" name="dari" placeholder="dari">
+            </div>
+            <div class="col">
+                <b><label for="">Sampai</label></b>
+                <input type="date" class="form-control" name="sampai">
+            </div>
+            <div class="col">
+               
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+            <button type="submit" class="btn btn-primary-lk">Filter</button>
+            </div>
+        </div>
+    </div>
+    </form>
+</div>
+
+
 
 <script>
 $(document).ready(function() {
     $(document).ready(function() {
-        $(document).delegate('.dropdown-item','click',function() {
+        $(document).delegate('.dropdown-item', 'click', function() {
             changeStatus($(this));
         });
     });
+
+
 });
-
-
-
-
-
 </script>
 
 
@@ -55,49 +90,50 @@ $(document).ready(function() {
                 <td>{{$i+1}}</td>
                 <td>{{$lp->judul_laporan}}</td>
                 <td>
-                     
+
 
                 </td>
                 <td><a href="">{{$lp->lokasi}}</a></td>
                 <td>
-                @if($lp->petugas != null)
-                @php
-                  $daftarpetugas = "";
+                    @if($lp->petugas != null)
+                    @php
+                    $daftarpetugas = "";
 
-                  foreach($lp["petugas"] as $i => $pg){
+                    foreach($lp["petugas"] as $i => $pg){
                     if($i == 0){
-                      $daftarpetugas.="(";
+                    $daftarpetugas.="(";
                     }
 
-                   
+
                     $daftarpetugas .= $pg["name"];
 
                     if($pg["jabatan"] == "ketua"){
-                      $daftarpetugas .= "(Ketua)";
+                    $daftarpetugas .= "(Ketua)";
                     }
 
                     if(!isset($lp["petugas"][$i+1])){
-                      $daftarpetugas.=")";
+                    $daftarpetugas.=")";
                     }else{
-                      $daftarpetugas .=",";
+                    $daftarpetugas .=",";
                     }
 
 
-                  }
+                    }
 
-                  echo "<p>$daftarpetugas</p>";
-                @endphp
-                @else
-                <a class='td-laporan' id_laporan="{{$lp->_id}}" href="#" data-bs-toggle="modal"
+                    echo "<p>$daftarpetugas</p>";
+                    @endphp
+                    @else
+                    <a class='td-laporan' id_laporan="{{$lp->_id}}" href="#" data-bs-toggle="modal"
                         data-bs-target="#modalAssigment" data-bs-whatever="@mdo"><i class="bi bi-pencil-fill"></i></a>
-                @endif
+                    @endif
 
-               
+
                 </td>
                 <td>{{date("Y-m-d", strtotime($lp->created_at))}}</td>
                 <td>
                     <button class="btn  btn-success" class="laporan-row"><i class='bi bi-info'></i></button>
-                    <button class="btn  btn-danger m-1" onclick="deleteLaporan('{{ $lp->_id }}')"><i class='bi bi-trash'></i></button>
+                    <button class="btn  btn-danger m-1" onclick="deleteLaporan('{{ $lp->_id }}')"><i
+                            class='bi bi-trash'></i></button>
                 </td>
             </tr>
             @endforeach
@@ -116,6 +152,7 @@ $(document).ready(function() {
     });
 });
 </script>
+
 <form action="{{route('admin.laporan.buat')}}" method="post" enctype='multipart/form-data'>
 
 
@@ -175,7 +212,7 @@ $(document).ready(function() {
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Buat Laporan</button>
+                    <button type="submit" class="btn btn-primary-lk">Buat Laporan</button>
                 </div>
 
             </div>
@@ -206,7 +243,7 @@ function initialize() {
 var counter = 0;
 
 function showdetaillaporan(data) {
-  
+
     $(".container-petugas").html("");
     for (var j = 0; j < data["petugas"].length; j++) {
         tambahRow(data, "fromdb", j);
@@ -240,15 +277,18 @@ $(document).ready(function() {
 
 
     $(document).delegate(
-        ".hps-petugas", "click", function(){
-            $(this).closest("tr").hide("slow").delay(10).queue(function(){$(this).remove();});;
+        ".hps-petugas", "click",
+        function() {
+            $(this).closest("tr").hide("slow").delay(10).queue(function() {
+                $(this).remove();
+            });;
         }
     )
-    $(document).delegate(".td-laporan","click", function(e) {
+    $(document).delegate(".td-laporan", "click", function(e) {
         var element = $(this);
         $("#id-laporan").val($(this).attr("id_laporan"));
 
-    
+
 
         $.ajax({
             url: "/getdetaillaporan",
@@ -262,20 +302,21 @@ $(document).ready(function() {
             dataType: "json",
             type: "post",
             success: function(data) {
-                if(element.attr("target") == "update"){
+                if (element.attr("target") == "update") {
                     $(".btn-assigment").text("Perbarui");
                     $(".btn-assigment").val("update");
                     $(".btn-assigment").attr("name", "target");
-                    $("#assigment-form").attr("action", '{{url("/admin/perbaruipetugas")}}');
-                }else{
+                    $("#assigment-form").attr("action",
+                    '{{url("/admin/perbaruipetugas")}}');
+                } else {
                     $(".btn-assigment").text("Assigment");
                     $(".btn-assigment").val("");
                     $(".btn-assigment").removeAttr("name");
                     $("#assigment-form").attr("action", '{{url("/admin/tambahpetugas")}}');
                 }
-                
+
                 showdetaillaporan(data);
-            }, 
+            },
             error: function(err) {
                 alert(err.responseText);
             }
@@ -393,11 +434,11 @@ $(document).ready(function() {
 
 
 
-</div>
-<div class="modal-footer">
-    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-    <button type="submit" class="btn btn-primary btn-assigment">Assigment</button>
-</div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary-lk btn-assigment">Assigment</button>
+                </div>
 </form>
 
 
@@ -407,7 +448,8 @@ $(document).ready(function() {
 </div>
 </form>
 
-@include("general.laporan.laporandetail")
+
+
 
 
 
@@ -436,35 +478,85 @@ $(document).ready(function() {
 <script src="//cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap.min.js"></script>
 <script>
-    $(document).ready(function(){
-      
-        $("#tabel-laporan").DataTable(
+$(document).ready(function() {
+    
+    var tabel = $("#tabel-laporan").DataTable({
+        dom: 'Bfrtip',
+        ordering: true,
+        serverSide: true,
+        processing: true,
+        ajax: {
+            'url': "/laporan/get",
+             data: function(d){
+                
+                d.status =  $("select[name=status]").val();
+                d.dari =  $("input[name=dari]").val();
+                d.sampai = $("input[name=sampai]").val();
+            },
+        },
+        columns: [{
+                data: 'DT_RowIndex',
+                name: 'DT_RowIndex',
+                width: '10px',
+                orderable: false,
+                searchable: false
+            },
             {
-                dom: 'Bfrtip',
-                ordering: true,
-                serverSide: true,
-                processing: true,
-                ajax: {
-                    'url': "/laporan/get"
-                   
-                },
-                columns: [
-                    {data: 'DT_RowIndex', name: 'DT_RowIndex',width: '10px', orderable: false,searchable: false},
-                    {data: 'judul_laporan', name: "judul_laporan"},
-                    {data: 'pelapor.name', name: "pelapor.name"},
-                    {data: 'lokasi', name: "lokasi"},
-                    {data: 'status', name: "status"},
-                    {data: 'petugas', name: ""},
-                    {data: 'created_at', name: "created_at"},
-                    {data: 'aksi', name: "aksi"},
-                ], dom: 'Bfrtip',
+                data: 'judul_laporan',
+                name: "judul_laporan"
+            },
+            {
+                data: 'pelapor.name',
+                name: "pelapor.name"
+            },
+            {
+                data: 'lokasi',
+                name: "lokasi"
+            },
+            {
+                data: 'status',
+                name: "status"
+            },
+            {
+                data: 'petugas',
+                name: ""
+            },
+            {
+                data: 'created_at',
+                name: "created_at"
+            },
+            {
+                data: 'aksi',
+                name: "aksi"
+            },
+        ],
+        dom: 'Bfrtip',
         buttons: [
-            
+
         ]
-            }
-        );
     });
+
+    $("#filter-form").submit(function(e){
+        
+        e.preventDefault();
+        tabel.ajax.reload();
+    });
+});
+</script>
+<script>
+    function initialize(defaultTab = null) {
+    let activepage = defaultTab != null ? defaultTab : "#tab-pg1";
+    $(".tab-cont").each(function() {
+        if ($(this).attr("id") != activepage.slice(1)) {
+            $(this).hide();
+        } else {
+            $(this).show();
+        }
+    });
+}
 </script>
 <script src="{{ asset("js/dataTables.buttons.min.js") }}"></script>
 <script src="{{ asset("js/buttons.bootstrap5.js") }}"></script>
+
+@include("component.modallaporaninfo")
 @endpush

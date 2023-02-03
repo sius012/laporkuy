@@ -72,7 +72,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-          <button type="submit" class="btn btn-primary perbarui-pengguna">Tambah Pengguna</button>
+          <button type="submit" class="btn btn-primary-lk perbarui-pengguna">Tambah Pengguna</button>
         </div>
     </form>
       </div>

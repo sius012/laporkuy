@@ -35,11 +35,14 @@ Route::middleware(["rolenew:petugas|admin"])->prefix("petugas")->group(function(
 });
 
 Route::middleware(["rolenew:admin"])->prefix("admin")->group(function(){
-        
         //Dashboard
         Route::get('/dashboard', [App\Http\Controllers\Admin\DashboardController::class, 'index']);
         Route::get('/laporan', [App\Http\Controllers\LaporanController::class, 'index'])->name("admin.laporan.index");
         Route::post('/buatlaporan', [App\Http\Controllers\LaporanController::class, 'buatLaporan'])->name('admin.laporan.buat');
+
+        //laporan
+        Route::get('/halamanunduh', [App\Http\Controllers\CetakLaporanController::class, 'index']);
+        Route::post('/unduhlaporan', [App\Http\Controllers\CetakLaporanController::class, 'CetakLaporan']);
 
         //laporanPetugas
         Route::post('/tambahpetugas', [App\Http\Controllers\LaporanController::class, 'tambahPetugas'])->name('admin.laporan.tambahpetugas');
@@ -47,14 +50,12 @@ Route::middleware(["rolenew:admin"])->prefix("admin")->group(function(){
         //dapatkaninformasidetail
 
 
-
-
         //pengelolaan pengguna
         Route::get('/userdata', [App\Http\Controllers\UserdataController::class, 'index'])->name('admin.user.tampil');
         Route::post('/getuserdetail', [App\Http\Controllers\UserdataController::class, 'getuserdetail'])->name('admin.user.detail');
         Route::post('/tambahuser',[App\Http\Controllers\UserdataController::class, 'tambahuser']);
-         Route::post('/tambahrole',[App\Http\Controllers\UserdataController::class, 'tambahrole']);
-         Route::post('/editroleuser',[App\Http\Controllers\UserdataController::class, 'editroleuser']);
+        Route::post('/tambahrole',[App\Http\Controllers\UserdataController::class, 'tambahrole']);
+        Route::post('/editroleuser',[App\Http\Controllers\UserdataController::class, 'editroleuser']);
 
         Route::get('/laporan/hapus/{id}', [App\Http\Controllers\LaporanController::class, 'hapusLaporan']);
 });
@@ -72,7 +73,7 @@ Route::post('/getdetaillaporan', [App\Http\Controllers\LaporanController::class,
 Route::post("/ubahstatuslaporan", [App\Http\Controllers\LaporanController::class, "ubahstatuslaporan"]);
 Route::get("/laporan/get", [App\Http\Controllers\LaporanController::class, "getlaporan"]);
 Route::post("/laporan/selesai", [App\Http\Controllers\LaporanController::class, "laporanselesai"]);
-
+Route::post("/kirimtanggapan", [App\Http\Controllers\LaporanController::class, "kirimtanggapan"]);
 
 
 

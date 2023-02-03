@@ -1,4 +1,8 @@
 <!doctype html>
+
+@php
+$whoactive = "";
+@endphp
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
 <head>
@@ -8,7 +12,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>@yield("title")</title>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -25,6 +29,7 @@
     </script>
     <script src="{{asset('js/popper.js')}}"></script>
     <script src="{{asset('js/autokey.js')}}"></script>
+    <script src="{{asset('js/sidebar.js')}}"></script>
     <script src="{{asset('js/laporandetail.js')}}"></script>
     <script src="{{asset('js/sweetalert2.all.js')}}"></script>
     <!-- Scripts -->
@@ -35,7 +40,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.10.2/umd/popper.min.js"
         integrity="sha512-nnzkI2u2Dy6HMnzMIkh7CPd1KX445z38XIu4jG1jGw7x5tSL3VBjE44dY4ihMU1ijAQV930SPM12cCFrB18sVw=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
     <script>
     function showLaporan(id) {
         $(document).ready(function() {
@@ -84,8 +88,14 @@
 
                     //isi halaman admin
 
-                    $("#tab-pg2 p").html(data["respon_laporan"]["keterangan"]);
+                    $("#tab-pg2 .respon-admin").html(data["respon_laporan"]["keterangan"]);
+                    $("#tab-pg2 .nama-admin").html(data["admin"]["name"]+" (Admin)");
 
+                    var date = new Date(data["respon_laporan"]["created_at"]);
+                    var dateString = date.toString('YYYY-MM-dd');
+                    $("#tab-pg2 .tgl-respon").html(dateString);
+
+                    $("#tab-pg2 .send-message").val(data["_id"]);
                     //isi status
 
                     $(".btn-status").val(data["_id"]);
@@ -98,6 +108,20 @@
                         return `<li class="list-group-item">${e["tanggal"]} <b> ${e["nama_pembuat"]} ${e["isi_keterangan"]} </b></li>`;
                     });
                     $(".list-log").html(mylog);
+
+
+                    //filltanggapan
+                    var tanggapan = data["respon_laporan"]["tanggapan"].map(function(e){
+                        return `<div class="d-flex ${e["account_id"] == "{{Auth::user()->_id}}" ? "flex-row-reverse" : "flex-row"} bd-highlight ">
+                                                        <div class="card p-2 dark ${e["account_id"] == "{{Auth::user()->_id}}" ? "card-message-me" : ""} m-3">
+                                                            <b>${e["nama"]} ${e["account_id"] == "{{Auth::user()->_id}}" ?  "(Anda)": "( "+e["role"]+" )"}</b>
+                                                            <span class="">${e["tanggapan"]}</span>
+                                                            <span class="">${new Date(e["tanggal"]).toString('YYYY-MM-dd')}</span>
+                                                        </div>
+                                                    </div>`
+                    });
+
+                    $(".cont-tanggapan").html(tanggapan);
                 },
                 error: function(err) {
                     alert(err.responseText);
@@ -127,10 +151,29 @@
         font-family:
     }
 
+    .sidebar-brand {
+        color: white;
+    }
+
+    .sidebar {
+        background: #1a1424;
+        padding: 20px;
+    }
+
+    .sidebar a {
+        color: white;
+        border-radius: 50px;
+    }
+
     .sidebar a:hover {
         background: #8d42f5;
         color: white !important;
-        border-radius: 50px
+        border-radius: 50px;
+    }
+
+    .nav-link-active{
+        background-color: white;
+        color: black !important;
     }
     </style>
 
@@ -144,24 +187,28 @@ $bg = asset("/public/img/bg-user.svg");
 <body class="" style="overflow-x: hidden; background: url('{{$bg}}')">
     @include("sweetalert::alert")
     <div id="app">
-        <div class="containers " style="height: 100vh">
-            <div class="row" style="height:100vh">
-                <div class="col-2 sideb shadow" style="height: auto; background-color: white">
+        <div class="containers main-content " style="height: 100vh">
+            <div class="row " style="height:100vh">
+                <div class="col-2 sideb shadow p-0" style="height: auto">
                     @include('layouts.sidebar')
                 </div>
-                <div class="col-10 ">
-                    <div class="card p-3 m-2 border-none shadow-sm">
-                        <div class="row">
-                            <div class="col-4">
+                <div class="col-10 menu-content">
+                    <div class="card  m-2 border-none shadow-sm p-3">
+                        <div class="row ml-5">
+                            <div class="col-4 ">
                                 <h4>@yield("title")</h4>
                             </div>
                             <div class="col-8">
+
                                 <div class="d-flex flex-row-reverse">
-                                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                                    <a class="nav-link dropdown-toggle " href="#" id="navbarDropdown" role="button"
                                         data-bs-toggle="dropdown" aria-expanded="false">
-                                        Akun saya
+                                        <i class="fa fa-user-circle"></i>
                                     </a>
                                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                        <li>
+                                            <a href="" class="nav-link p-1 mx-2"><i class="fa fa-user-circle fs-5"></i><span class="mx-3"><b>{{Auth::user()->name}} ({{ucwords(App\Models\User::myRole()[0])}})</b></span></a>
+                                        </li>
                                         <li>
                                             <form action="{{route('logout')}}" method="post">
                                                 @csrf

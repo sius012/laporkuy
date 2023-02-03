@@ -8,9 +8,10 @@
 <script>
 $(document).ready(function() {
 
-    function loadTab(target = null) {
+    function loadTab(target = null,parent = null) {
         var targetelm = target == null ? "keterangan-tab" : target;
-        $(".tab-cont").each(function() {
+        var theparent = parent == null ? $(".tab-cont") : parent.find(".tab-cont");
+        theparent.each(function() {
             if ($(this).hasClass(targetelm) == false) {
                 $(this).hide("fast");
             } else {
@@ -21,8 +22,18 @@ $(document).ready(function() {
 
     loadTab();
     $(".button-tab").click(function() {
+        var data_target = $(this).attr("lk-data-target");
+        var parent = $(this).closest(".card-comp");
+        loadTab($(this).attr("lk-data-target"),parent);
 
-        loadTab($(this).attr("lk-data-target"));
+        
+        $(this).parent().children(".button-tab").each(function(){
+            if($(this).attr("lk-data-target") == data_target ){
+                $(this).find("i").removeClass("disabled");
+            }else{
+                $(this).find("i").addClass("disabled");
+            }
+        });
     });
 
 
@@ -62,9 +73,9 @@ $(document).ready(function() {
 @endpush
 
 <div class="dic mb-5"></div>
-<div class="containers m-3">
+<div class="containers m-3" style="height   : 100vh">
 
-    <div class="row" style="height: 100vh">
+    <div class="row">
 
         <div class="col-6">
             <div class="card shadow p-3">
@@ -97,7 +108,7 @@ $(document).ready(function() {
                             <input type="date" class="form-control" name="sampai">
                         </div>
                         <div class="col">
-                            <button class="btn btn-primary" value="laporan" name="filter">Cari</button>
+                            <button class="btn btn-primary-lk" value="laporan" name="filter">Cari</button>
                         </div>
                     </div>
 

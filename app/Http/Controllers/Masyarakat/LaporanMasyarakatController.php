@@ -48,7 +48,7 @@ class LaporanMasyarakatController extends Controller
             $data[$i] = $detail->getdetaillaporan($myRequest);
         }
         
-        // /dd($data);
+        //dd($data);
         
             
         return view("masyarakat.laporansaya", ["latat"=>true, "laporan"=>$data]);

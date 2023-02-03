@@ -55,7 +55,7 @@
                                     </li>
                                     <li class="nav-item">
                                         <a class="nav-link p-2 tab-open" aria-current="page" href="#"
-                                            data-target="#tab-pg2"><b> Keterangan Admin</b></a>
+                                            data-target="#tab-pg2"><b> Respon</b></a>
                                     </li>
                                     <li class="nav-item">
                                         <a class="nav-link p-2 tab-open" aria-current="page" href="#"
@@ -70,9 +70,60 @@
                                     <div class="container tab-cont" style="height: 200px" id="tab-pg1">
                                         <p></p>
                                     </div>
-                                    <div class="container tab-cont" style="height: 200px" id="tab-pg2">
+                                    <div class="container tab-cont" id="tab-pg2">
                                         <p></p>
+                                        <div class="container-pg2">
+                                            <div class="respon-section" style="height: 200px; overflow-y: scroll">
+                                                <div class="d-flex flex-row bd-highlight mb-3 ">
+                                                    <div class="contaner">
+                                                        <div class="card p-3 dark">
+                                                            <b class="nama-admin">Bambang Pamungkas</b>
+                                                            <p class="respon-admin">Lorem ipsum dolor sit, amet
+                                                                consectetur
+                                                                adipisicing
+                                                                elit. Quo nobis ab excepturi ad aperiam esse minima
+                                                                aspernatur
+                                                                laborum enim eveniet id, dicta dolore. Fugit
+                                                                voluptatibus
+                                                                autem
+                                                                architecto ex praesentium impedit.</p>
+
+                                                        </div>
+                                                        <span class="tgl-respon"></span>
+                                                    </div>
+
+                                                </div>
+                                                <div class="cont-tanggapan">
+                                                    <div class="d-flex flex-row-reverse bd-highlight">
+                                                        <div class="card p-3 dark">
+                                                            <b>Bambang Pamungkas</b>
+                                                            <p class="">Lorem ipsum dolor sit, amet consectetur
+                                                                adipisicing
+                                                                elit. Quo nobis ab excepturi ad aperiam esse minima
+                                                                aspernatur
+                                                                laborum enim eveniet id, dicta dolore. Fugit
+                                                                voluptatibus
+                                                                autem
+                                                                architecto ex praesentium impedit.</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <div class="card px-3 py-2">
+                                            <div class="row">
+                                                <div class="col-10">
+                                                    <input type="text" class="form-control field-message-sender" id="">
+                                                </div>
+                                                <div class="col-2">
+                                                    <button class="btn btn-primary-lk send-message"><i
+                                                            class="fa fa-paper-plane"></i></button>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
+
                                     <div class="container tab-cont" style="height: 200px; " id="tab-pg3">
                                         <ul class="list-group list-petugas  m-3">
                                             <li class="list-group-item">An item</li>

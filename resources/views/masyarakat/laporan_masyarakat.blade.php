@@ -1,10 +1,10 @@
 @extends('layouts.layout_user')
 @push('css')
 <style>
-section {
+.landing {
     background-color: #431280 !important;
 
-    height: 600px;
+
 }
 
 
@@ -14,10 +14,7 @@ section {
     font-size: 40pt;
 }
 
-.landing .content {
-    position: absolute;
-    top: 75px;
-}
+
 
 .section-text {
     color: white;
@@ -64,15 +61,21 @@ function scrollto() {
 
 @endpush
 @section('content')
-<section class="landing ">
-    <div class="p-5 content">
-        <h3 class="pb-5">Buat Kondisi Lebih Baik bersama <b>Laporkuy</b></h3>
-        <p class="section-text">
-            buat laporan pengajuan anda, apapun laporan anda kami terima
-        </p>
-        <button class="btn-buatlaporan" onclick="scrollto()"> Buat Laporan</button>
+
+    <div class="row landing p-5">
+        <div class="col mt-5">
+            <div class="m-5 content">
+                <h3 class="pb-5">Buat Kondisi Lebih Baik bersama <b>Laporkuy</b></h3>
+                <p class="section-text">
+                    buat laporan pengajuan anda, apapun laporan anda kami terima
+                </p>
+                <button class="btn-buatlaporan" onclick="scrollto()"> Buat Laporan</button>
+            </div>
+        </div>
+        <div class="col mt-5">
+          <img class="m-0" src="{{asset('/img/lp_ilustration.svg')}}" alt="" style="width: 500px">
+        </div>
     </div>
-</section>
 <div class="div">
     <div class="container" style="
             padding-top: 10px

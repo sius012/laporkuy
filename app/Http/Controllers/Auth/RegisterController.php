@@ -65,7 +65,7 @@ class RegisterController extends Controller
     public function create(array $data)
     {
         
-        $role = "admin";
+        $role = "masyarakat";
         if(isset($data["role"])){
             $role = $data["role"];
         }

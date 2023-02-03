@@ -24,9 +24,13 @@ use Carbon\Carbon;
 class LaporanController extends Controller
 {
     public function index(Request $req){
-    $data = Laporan::all();
-       
+    $data = new Laporan;
 
+    
+
+    $data = $data->get();
+    
+    
 
         
       
@@ -132,10 +136,17 @@ class LaporanController extends Controller
 
     //AJAX FUNCTION
     public function getlaporan(Request $req){
-        $data = Laporan::get();
+        $data = new Laporan;
        
-       
-      
+        if($req->filled("status")){
+            $data = $data->where("status", $req->status);
+        }
+     
+         if($req->filled("dari") and $req->filled("sampai")){
+             $data->whereBetween("tanggal", [$req->dari, $req->sampai]);
+         }
+
+        $data = $data->get();
         
       
     // return view("admin.laporan.index", ["laporan"=>$data]);
@@ -184,7 +195,7 @@ class LaporanController extends Controller
                 return '<div class="btn-group">
                 <button type="button" class="btn dropdown-toggle '.renderSpan($data->status).'" data-bs-toggle="dropdown"
                     aria-expanded="false" value="'.$data->_id.'">
-                    '.$data->status.'
+                    '.ucwords($data->status).'
                 </button>
                 <ul class="dropdown-menu" id="tuning-options">
                     <li><a class="dropdown-item" href="#" value="menunggu">Menunggu</a></li>
@@ -200,7 +211,7 @@ class LaporanController extends Controller
                 return date("Y-m-d", strtotime($data->created_at));
             })
             ->addColumn("aksi", function($data){
-                return '<button class="btn  btn-success" class="laporan-row"><i class="bi bi-info"></i></button>
+                return '<button class="btn  btn-success" class="laporan-row" data-bs-toggle="modal" data-bs-target="#modal-laporan" onclick='.'"'."showLaporan('".$data->_id."')".'"><i class="bi bi-info"></i></button>
                 <button class="btn  btn-danger m-1" onclick="deleteLaporan('. "'".$data->_id."'".')"><i class="bi bi-trash"></i></button>';
             })  
             ->rawColumns(["petugas","status","aksi"])
@@ -237,8 +248,7 @@ class LaporanController extends Controller
 
 
     public function getdetaillaporan(Request $req){
-        $laporan = Laporan::find($req->id)->toArray();
-
+        $laporan = Laporan::find($req->id);
         $nojson = false;
     
         if($req->filled("state")){
@@ -247,10 +257,6 @@ class LaporanController extends Controller
             }
             foreach($req->state as $st){
                 if($st == "respon_laporan"){
-
-                    
-         
-
                         //Get Response Laporan
                         $rp = ResponLaporan::where("id_laporan",$req->id)->first();
                         if($rp!=null){
@@ -363,6 +369,28 @@ class LaporanController extends Controller
        $this->ubahstatuslaporan($req);
        return redirect()->back();
 
+    }
+
+    public function kirimtanggapan(Request $req){
+        $responLaporan = ResponLaporan::where("id_laporan", $req->id_laporan)->first();
+
+        $tanggapan = [[
+            "nama"=>Auth::user()->name,
+            "role"=>User::myRole()[0],
+            "tanggapan"=>$req->message,
+            "account_id" => Auth::user()->_id,
+            "tanggal" => date("Y-m-d H:i:s")
+        ]];
+
+        if($responLaporan->tanggapan == null){
+            $responLaporan->tanggapan = $tanggapan;
+            $responLaporan->save();
+        }else{
+            $oldTanggapan = $responLaporan->tanggapan;
+
+            $responLaporan->tanggapan = array_merge($oldTanggapan,$tanggapan);
+            $responLaporan->save();
+        }
     }
 
 

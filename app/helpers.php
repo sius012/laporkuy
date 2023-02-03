@@ -17,7 +17,7 @@ function renderSpan($status){
           return "bg-danger";
           break;
       case "selesai":
-        return "bg-primary";
+        return "bg-selesai";
         break;
         case "ditunda":
           return "bg-onhold";
@@ -41,12 +41,9 @@ class LaporkuyLayout {
 
 
 
-  public static function renderSidebar(){
+  public static function renderSidebar($url){
     $menustring = "";
     $menu =  [
-      ["nama_menu" => "Laporkuy",
-       "title" =>true
-    ],
       [
         "nama_menu" => "Dashboard",
         "class_icon" => "fa fa-dashboard",
@@ -65,12 +62,17 @@ class LaporkuyLayout {
         "redirect_to" => url("/admin/userdata"),
         "only" => ["admin"]
       ],
-     
+      [
+        "nama_menu" => "Unduh Laporan",
+        "class_icon" => "fa fa-download",
+        "redirect_to" => url("/admin/halamanunduh"),
+        "only"=>["admin"],
+      ],
       [
         "nama_menu" => "Tugas Saya",
         "class_icon" => "fa fa-list",
         "redirect_to" => url("/petugas/tugassaya"),
-        "only"=>["petugas"],
+        "only"=>["petugas","admin"],
       ],
        [
         "nama_menu" => "Pengaturan Akun",
@@ -108,7 +110,7 @@ class LaporkuyLayout {
       $menustring .= '<div class="row">
 
       
-        <a href="'.(isset($m["redirect_to"]) ? $m["redirect_to"] : "#").'" class="p-3 side-link nav-link ">
+        <a href="'.(isset($m["redirect_to"]) ? $m["redirect_to"] : "#").'" class="p-3 side-link nav-link '.($m["redirect_to"] == $url ? "nav-link-active" : "").'">
             <div class="row">
                 <div class="col-3"><i class=" px-3 '.(isset($m["class_icon"]) ? $m["class_icon"] : "") .'"></i></div>
                 <div class="col-9 fw-bold">'.$m["nama_menu"].'</div>

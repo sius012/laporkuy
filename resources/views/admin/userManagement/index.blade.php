@@ -4,7 +4,6 @@
 <style>
 .tab {
     overflow: hidden;
-    border: 1px solid #ccc;
     background-color: #f1f1f1;
 }
 
@@ -34,7 +33,6 @@
 .tabcontent {
     display: none;
     padding: 6px 12px;
-    border: 1px solid #ccc;
     border-top: none;
 }
 </style>
@@ -112,7 +110,7 @@ $(document).ready(function() {
 
     });
 
-
+   
     function loadTab(target = null) {
         var targetelm = target == null ? "pengguna-cont" : target;
 
@@ -134,6 +132,7 @@ $(document).ready(function() {
     loadTab();
     $(".button-tab").click(function() {
         loadTab($(this).attr("data-target"));
+
     });
 
     //
@@ -173,7 +172,7 @@ $(document).ready(function() {
 
     <!-- container content -->
     <div class="tab-cont" id="pengguna-cont">
-        <button type="button" class="btn btn-primary tambah-modal" data-bs-toggle="modal" data-bs-target="#tambah-user-modal">
+        <button type="button" class="btn btn-primary-lk tambah-modal" data-bs-toggle="modal" data-bs-target="#tambah-user-modal">
             Tambah Pengguna
         </button>
         <table class="table table-stripped" id="tabel-pengguna">
@@ -343,7 +342,7 @@ $(document).ready(function() {
     </div>
 </div>
 <div class="tab-cont" id="role-cont">
-    <button type="button" class="btn btn-primary m-3" data-bs-toggle="modal" data-bs-target="#tambah-role-modal">
+    <button type="button" class="btn btn-primary-lk m-3" data-bs-toggle="modal" data-bs-target="#tambah-role-modal">
         Buat Role
     </button>
     <div class="containers">

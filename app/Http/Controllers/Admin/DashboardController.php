@@ -17,6 +17,15 @@ class DashboardController extends Controller
         $laporanDiproses = Laporan::where("status","diproses")->count();
         $laporanSelesai = Laporan::where("status","selesai")->count();
 
-        return view("admin.dashboard.index", ["laporan_menunggu" => $laporanMenunggu, "laporan_kepetugas"=>$laporanKepetugas,"laporan_diproses"=>$laporanDiproses, "laporan_selesai" => $laporanSelesai]);
+
+        $jumlahadmin = User::role("admin")->count();
+        $jumlahpetugas = User::role("petugas")->count();
+        $jumlahmasyarakat = User::role("masyarakat")->count();
+
+        return view("admin.dashboard.index", ["laporan_menunggu" => $laporanMenunggu, "laporan_kepetugas"=>$laporanKepetugas,"laporan_diproses"=>$laporanDiproses, "laporan_selesai" => $laporanSelesai,
+        "jumlahadmin" => $jumlahadmin,
+        "jumlahpetugas" => $jumlahpetugas,
+        "jumlahmasyarakat" => $jumlahmasyarakat,
+    ]);
     }
 }

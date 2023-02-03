@@ -99,7 +99,6 @@ function changeStatus(element, modalement = null) {
 
     if (element.attr("value") == "selesai") {
         if (modalement != null) {
-            alert("tes");
             Swal.fire({
                 title: "<strong>Konfirmasi selesai</strong>",
                 html:
@@ -112,14 +111,13 @@ function changeStatus(element, modalement = null) {
                     )}">` +
                     "<b>Masukan keterangan</b>, " +
                     '<textarea name="keterangan" class="form-control " style="display:block !important;"></textarea>' +
-                    "</form>" +
-                    "and other HTML tags",
+                    "</form>",
                 showCloseButton: true,
                 showCancelButton: true,
                 focusConfirm: false,
-                confirmButtonText: '<i class="fa fa-thumbs-up"></i> Great!',
+                confirmButtonText: '<i class="fa fa-ok"></i> Selesai',
                 confirmButtonAriaLabel: "Thumbs up, great!",
-                cancelButtonText: '<i class="fa fa-thumbs-down"></i>',
+                cancelButtonText: '<i class="fa fa-close"></i>',
                 cancelButtonAriaLabel: "Thumbs down",
             }).then((res) => {
                 if (res.isConfirmed) {
@@ -163,7 +161,7 @@ function changeStatusAjax(element, button) {
 
             Toast.fire({
                 icon: "success",
-                title: "Signed in successfully",
+                title: "status telah diubah",
             });
         },
         error: function (err) {

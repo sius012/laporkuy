@@ -1,13 +1,14 @@
-<div class="card m-3 shadow">
+<div class="card m-3 shadow card-comp">
     <div class="card-header header-task">
         <span class=" fs-6"><b>{{$lp["judul_laporan"]}} <span
                     class="badge  fs-6 {{renderSpan($lp['status'])}}">{{ucwords($lp["status"])}}</span></b>
-</span>
+        </span>
     </div>
     <div class="card-body">
         <div class="row">
-            <div class="col-1"><img src="https://www.w3schools.com/howto/img_avatar.png" alt="" class="rounded-circle"
-                    style="size: 200px;"></div>
+            <div class="col-1"><img
+                    src="{{auth()->user()->foto_profil != null ?  auth()->user()->foto_profil : 'https://www.w3schools.com/howto/img_avatar.png'}}"
+                    alt="" class="rounded-circle" style="size: 200px;"></div>
             <div class="col-11">
                 <div class="row">
                     <div class="col">
@@ -48,37 +49,83 @@
             <div class="col-12">
                 <div class="container keterangan-tab tab-cont">
 
-                    <div class="card p-3" readonly>{{$lp["keterangan"]}}</div>
+                    <div class="card p-3 shadow" readonly>
+                        <p><b>Keterangan</b></p>
+                        {{$lp["keterangan"]}}
+                    </div>
                 </div>
                 <div class="container respon-admin-tab tab-cont">
-                    <div class="card p-2">
+                    <div class="card p-3 shadow">
+                        <p><b>Respon Admin</b></p>
                         <div class="container">
                             @if(isset($lp["respon_laporan"]))
-                            <p>Pesan dari Admin: <b>{{$lp["admin"]["name"]}}</b></p>
-                            <span class="fs-6 ">direspon pada </span>
-                            <div class="badge bg-warning">{{date("Y-m-d")}}</div>
-                            <div class="card p-2 m-3">{{$lp["respon_laporan"]["keterangan"]}}</div>
+                            <div class="respon-section" style="height: 200px; overflow-y: scroll">
+                                <div class="d-flex flex-row bd-highlight mb-3 ">
+                                    <div class="contaner">
+                                        <div class="card p-3 dark shadow border">
+                                            <b class="nama-admin">{{$lp["admin"]["name"]}} (Admin)</b>
+                                            <p class="respon-admin">{{$lp["respon_laporan"]["keterangan"]}}
+
+                                        </div>
+                                        <span class="tgl-respon"></span>
+                                    </div>
+
+                                </div>
+                                <div class="cont-tanggapan">
+                                    @if(isset($lp["respon_laporan"]["tanggapan"]))
+                                    @foreach($lp["respon_laporan"]["tanggapan"] as $lpt)
+                                    <div class="d-flex @if(Auth::user()->id == $lpt['account_id']) flex-row-reverse @else flex-row @endif bd-highlight">
+                                        <div class="card m-3 shadow border p-3 dark @if(Auth::user()->id == $lpt['account_id']) card-message-me @endif ">
+                                            <b>{{$lpt["nama"]}}</b>
+                                            <p class="">{{$lpt["tanggapan"]}}</p>
+                                            <p class="">{{$lpt["tanggal"]}}</p>
+                                        </div>
+                                    </div>
+                                    @endforeach
+                                    @endif
+                                </div>
+
+                            </div>
+                            @if(isset($lp["respon_laporan"]["tanggapan"]))
+                            <div class="card px-3 py-2">
+                                            <div class="row">
+                                                <div class="col-10">
+                                                    <input type="text" class="form-control field-message-sender" id="">
+                                                </div>
+                                                <div class="col-2">
+                                                    <button class="btn btn-primary-lk send-message" value="{{$lp['_id']}}"><i
+                                                            class="fa fa-paper-plane"></i></button>
+                                                </div>
+                                            </div>
+                                </div>
+                            @endif
+                            @else
+                            <h5 class="disabled">Laporan Belum direspon</h5>
                             @endif
                         </div>
                     </div>
                 </div>
                 <div class="container changelog-tab tab-cont">
-                    <div class="card p-2">
+                    <div class="card p-3 shadow">
                         <div class="container">
-                            @if($lp["admin"]!=null)
+                            <p><b>Log Laporan</b></p>
                             @if(isset($lp["log"]))
+
                             <ul class="list-group">
                                 @foreach($lp["log"] as $lg)
-                                  <li class="list-group-item"><span>{{$lg["tanggal"]}}</span>  <span><b>{{$lg["nama_pembuat"]}}</b></span> <span>{{$lg["isi_keterangan"]}}</span></li>
-                                @endforeach 
+                                <li class="list-group-item"><span>{{$lg["tanggal"]}}</span>
+                                    <span><b>{{$lg["nama_pembuat"]}}</b></span> <span>{{$lg["isi_keterangan"]}}</span>
+                                </li>
+                                @endforeach
                             </ul>
                             @endif
-                            @endif
+
                         </div>
                     </div>
                 </div>
                 <div class="container result-tab tab-cont">
-                    <div class="card p-2">
+                    <div class="card p-3 shadow">
+                        <p><b>Pasca laporan</b></p>
                         @if($lp['petugas'] != null)
                         <div class="container">
                             <ul class="list-group " style="font-size: 8pt">
@@ -94,22 +141,13 @@
                         </div>
                         @endif
                         <div class="container m-3">
-                            <div class="card ">
+                            <div class="card border">
                                 <div class="card-body">
                                     <p><b> Keterangan akhir</b></p>
-                                    Lorem ipsum, dolor sit amet consectetur adipisicing elit. Sint, ea?
-                                    Earum
-                                    repellendus consectetur praesentium vel optio cumque rem repellat?
-                                    Dolore.
+                                    @if(isset($lp["respon_laporan"]["keterangan_petugas"]))
+                                    <p>{{$lp["respon_laporan"]["keterangan_petugas"]}}</p>
+                                    @endif
                                 </div>
-
-
-                                <div class="card-footer">
-                                    <button class="btn btn-laporkuy" data-bs-toggle="modal"
-                                        data-bs-target="#exampleModal"><i class="fa fa-image "></i><span
-                                            class="ml-1">Lampiran Akhir </span> </button>
-                                </div>
-
                             </div>
 
                         </div>
@@ -122,7 +160,7 @@
     </div>
     <div class="card-footer">
         <button class="btn btn-success lampiran-saya" data-bs-toggle="modal" data-bs-target="#exampleModal"
-            value="{{$lp['_id']}}"><i class="fa fa-image"></i></button>
+            value="{{$lp['_id']}}"><i class="fa fa-image" ></i></button>
 
     </div>
 
