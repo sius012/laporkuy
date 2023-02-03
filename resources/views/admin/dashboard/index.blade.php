@@ -103,25 +103,25 @@
         </div>
     </div>
     <div class="row">
-            <div class="col-6">
+            <div class="col-3">
                 <div class="card p-3 ">
                 <h5 class="mb-3">PENGGUNA</h5>
                 <div class="card bg-c-green order-card">
                 <div class="row">
-                    <div class="col-5 p-3"><h2 class="m-2"><i class="fa fa-circle-user"></i> Admin</h2></div>
-                    <div class="col-7 p-4"><h3>{{$jumlahadmin}}</h3></div>
+                    <div class="col-8 p-3"><h4 class="m-2"><i class="fa fa-circle-user"></i> Admin</h4></div>
+                    <div class="col-4 p-4"><h3>{{$jumlahadmin}}</h3></div>
                 </div>
                 </div>
                 <div class="card bg-c-green order-card">
                 <div class="row">
-                    <div class="col-5 p-3"><h2 class="m-2"><i class="fa fa-circle-user"></i> Petugas</h2></div>
-                    <div class="col-7 p-4"><h3>{{$jumlahpetugas}}</h3></div>
+                    <div class="col-8 p-3"><h4 class="m-2"><i class="fa fa-circle-user"></i> Petugas</h4></div>
+                    <div class="col-4 p-4"><h3>{{$jumlahpetugas}}</h3></div>
                 </div>
                 </div>
                 <div class="card bg-c-green order-card">
                 <div class="row">
-                    <div class="col-5 p-3"><h2 class="m-2"><i class="fa fa-circle-user"></i> Masyarakat</h2></div>
-                    <div class="col-7 p-4"><h3>{{$jumlahmasyarakat}}</h3></div>
+                    <div class="col-8 p-3"><h4 class="m-2"><i class="fa fa-circle-user"></i> Masyarakat</h4></div>
+                    <div class="col-4 p-4"><h3>{{$jumlahmasyarakat}}</h3></div>
                 </div>
                 </div>
                 

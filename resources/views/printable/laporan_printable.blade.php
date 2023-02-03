@@ -65,52 +65,6 @@ table {
                     @endforeach
                 </tbody>
             </table>
-
-
-            <table>
-                <thead>
-                    <tr>
-                        <th>No</th>
-                        <th>Tanggal</th>
-                        <th>Judul Laporan</th>
-                        <th>Keterangan admin</th>
-                        
-                        <th>Nama Petugas</th>
-                        <th>Jabatan</th>
-                        <th>Keterangan petugas</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($lpm as $i => $lp)
-                    @if($lp["petugas"]!=null)
-                    @foreach($lp["petugas"] as $i => $lpp)
-                    <tr>    
-                        <td>{{$i+1}}</td>
-                        @if($i == 0)
-                        <td rowspan="{{count($lp['petugas'])}}">{{$lp["tanggal"]}}</td>
-                        @endif
-                        @if($i == 0)
-                        <td rowspan="{{count($lp['petugas'])}}">{{$lp["judul_laporan"]}}</td>
-                        @endif
-                        @if($lp["respon_laporan"] != null)
-                        @if($i == 0)
-                        <td rowspan="{{count($lp['petugas'])}}">{{$lp["respon_laporan"]["keterangan"]}}</td>
-                        @endif
-                        @endif
-                        <td>{{$lpp["name"]}}</td>
-                        <td>{{$lpp["jabatan"]}}</td>
-                        @if(isset($lp["respon_laporan"]["keterangan_petugas"]))
-                        @if($i == 0)
-                        <td rowspan="{{count($lp['petugas'])}}">{{$lp["respon_laporan"]["keterangan_petugas"]}}</td>
-                        @endif
-                        @endif
-                    </tr>
-
-                    @endforeach
-                    @endif
-                    @endforeach
-                </tbody>
-            </table>
             @endforeach
         </div>
     </div>

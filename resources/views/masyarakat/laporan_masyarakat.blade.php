@@ -101,7 +101,7 @@ function scrollto() {
                                 </div>
                                 <div class="col-8 content-parts" id="bb">
                                     @include('masyarakat.buatlaporan')
-                                    <button type="submit" class="btn btn-primary">Buat Laporan</button>
+                                    <button type="submit" class="btn btn-primary-lk">Buat Laporan</button>
                                 </div>
                             </div>
                         </div>

@@ -56,7 +56,7 @@
                 </div>
                 <div class="container respon-admin-tab tab-cont">
                     <div class="card p-3 shadow">
-                        <p><b>Respon Admin</b></p>
+                        <p><b>Respon Admin dan Petugas</b></p>
                         <div class="container">
                             @if(isset($lp["respon_laporan"]))
                             <div class="respon-section" style="height: 200px; overflow-y: scroll">

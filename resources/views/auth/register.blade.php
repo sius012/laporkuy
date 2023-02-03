@@ -72,7 +72,7 @@
                         </div>
                         <div class="row p-3">
                             
-                                <button type="submit" class="btn btn-primary">
+                                <button type="submit" class="btn btn-primary-lk">
                                     {{ __('Daftar') }}
                                 </button>
                             

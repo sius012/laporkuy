@@ -212,7 +212,7 @@ class LaporanController extends Controller
             })
             ->addColumn("aksi", function($data){
                 return '<button class="btn  btn-success" class="laporan-row" data-bs-toggle="modal" data-bs-target="#modal-laporan" onclick='.'"'."showLaporan('".$data->_id."')".'"><i class="bi bi-info"></i></button>
-                <button class="btn  btn-danger m-1" onclick="deleteLaporan('. "'".$data->_id."'".')"><i class="bi bi-trash"></i></button>';
+                ';
             })  
             ->rawColumns(["petugas","status","aksi"])
             

@@ -41,7 +41,7 @@
                     </ul>
                 </div>
                 @else
-                <a class="btn-login" href="{{route('login')}}">Mari bergabung!</a>
+                <a class="btn-login m-3" href="{{route('login')}}">Mari bergabung!</a>
                 @endif
             </div>
         </div>
